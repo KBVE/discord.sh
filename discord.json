@@ -1,0 +1,10 @@
+{
+    "apps": [
+        {
+            "name": "discord-bot",
+            "cwd": "./src",
+            "script": "npm",
+            "args": "start"
+        }
+    ]
+}
