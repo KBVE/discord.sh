@@ -180,10 +180,12 @@ class FundCommand extends Command {
             
                 // Max Stack of 10 
                 embed.setColor(0x57f287)
-                .setDescription(` New Embed? Test Case 2`)
-
+                
+                .setTitle("📈 KBVE Fund")
+                .setAuthor({ name: 'Ami@Discord.sh', iconURL: 'https://a.kbve.com/static/image/kbve/kbve.png', url: 'https://discord.sh' })
+                .setDescription(` New Embed? Test Case 3`)
                 .addFields(
-                    { name: "💼  Portfolio Cash", value: `$:  ${data.results[0].portfolio_cash} USD : (🐺 + 🏧)`, inline: true },
+                    { name: "💼  Portfolio Cash", value: `$:  ${data.results[0].portfolio_cash} USD : (🐺 + 🏧)`},
                     { name: "💸  Cash Stash", value: `$:  ${data.results[0].cash_available_for_withdrawal} USD : ()`, inline: true },
                     { name: "🐺    Margin* ", value: `$:  ${data.results[0].cash} USD `, inline: true },
                     { name: "🏧   Unsettled Funds", value: `$:  ${data.results[0].unsettled_funds} USD `, inline: true },
@@ -201,7 +203,11 @@ class FundCommand extends Command {
                 .addField("🐖 Piggy Pending Pank" , `$: ${data.results[0].cash_held_for_orders} `)
                 .addField("❤️‍🔥 Cash Held " , `$: ${data.results[0].cash_held_for_options_collateral} `)
 */
-                .setTitle("📈 KBVE Fund");
+                .setTimestamp()
+
+                .setFooter({ text: 'Powered by Discord.sh', iconURL: 'https://a.kbve.com/static/image/kbve/kbve.png' });
+
+              
 
 
                 if( Math.random() < 0.1 ) { bonus   .setColor(0x0000FF)  .setDescription(` InterGalatic Banking Clan, \n with the partnership of the Iron Bank of Braavos, \n thanks you for your service against *Black* Crack *Rock* Cocks.`);    }
@@ -217,6 +223,7 @@ class FundCommand extends Command {
                   
                         if (__price == null || __price.results == null) { embed.setColor(0xFF0000).setDescription(`Error with the pricing, yall trying to rob the hood?`); await interaction.editReply({ embeds: [embed] });  break; }
 
+                        
                         //console.log(__price.results[0]);
                         embed
                                 .setColor(0x57f287)
