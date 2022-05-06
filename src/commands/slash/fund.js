@@ -178,9 +178,21 @@ class FundCommand extends Command {
                     }
                 //  END DANGER
             
-                // Max Stack of 10 Fields
+                // Max Stack of 10 
                 embed.setColor(0x57f287)
-                .setDescription(` New Embed? Test Case 1`)
+                .setDescription(` New Embed? Test Case 2`)
+
+                .addFields(
+                    { name: "💼  Portfolio Cash", value: `$:  ${data.results[0].portfolio_cash} USD : (🐺 + 🏧)`, inline: true },
+                    { name: "💸  Cash Stash", value: `$:  ${data.results[0].cash_available_for_withdrawal} USD : ()`, inline: true },
+                    { name: "🐺    Margin* ", value: `$:  ${data.results[0].cash} USD `, inline: true },
+                    { name: "🏧   Unsettled Funds", value: `$:  ${data.results[0].unsettled_funds} USD `, inline: true },
+                    { name: "💰 RustyClan Lannister Debt", value: `$:  ${data.results[0].unsettled_debit} USD `, inline: true },
+                    { name: "🐖 Piggy Pending Pank", value: `$:  ${data.results[0].cash_held_for_orders} USD `, inline: true },
+                    { name: "❤️‍🔥 Cash Held", value: `$:  ${data.results[0].cash_held_for_options_collateral} USD `, inline: true }
+                  )
+
+/*
                 .addField("💼  Portfolio Cash", `$: ${data.results[0].portfolio_cash}`)
                 .addField("💸  Cash Stash ", `$: ${data.results[0].cash_available_for_withdrawal}`)
                 .addField("🐺    Margin* ", `$: ${data.results[0].cash}`)
@@ -188,6 +200,7 @@ class FundCommand extends Command {
                 .addField("💰 RustyClan Lannister Debt" , `$: ${data.results[0].unsettled_debit}`)
                 .addField("🐖 Piggy Pending Pank" , `$: ${data.results[0].cash_held_for_orders} `)
                 .addField("❤️‍🔥 Cash Held " , `$: ${data.results[0].cash_held_for_options_collateral} `)
+*/
                 .setTitle("📈 KBVE Fund");
 
 
