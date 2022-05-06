@@ -178,14 +178,18 @@ class FundCommand extends Command {
                     }
                 //  END DANGER
             
-
+                // Max Stack of 10 Fields
                 embed.setColor(0x57f287)
-                .setDescription(`📈 KBVE Fund \n Margin $: ${data.results[0].cash} USD
-                \n 💸 Cash $: ${data.results[0].cash_available_for_withdrawal} USD 
-                \n 💰 RustyClan Lannister Debt $: ${data.results[0].unsettled_debit} 
-                \n 🐖 Piggy Pending Pank $: ${data.results[0].cash_held_for_orders} 
-                \n ❤️‍🔥 Cash Held $: ${data.results[0].cash_held_for_options_collateral}  
-                \n 🪙 Crypto ₿uying Power $: ${data.results[0].crypto_buying_power} `);
+                .setDescription(` New Embed? Test Case 1`)
+                .addField("💼  Portfolio Cash", `$: ${data.results[0].portfolio_cash}`)
+                .addField("💸  Cash Stash ", `$: ${data.results[0].cash_available_for_withdrawal}`)
+                .addField("🐺    Margin* ", `$: ${data.results[0].cash}`)
+                .addField("🏧   Unsettled Cash" , `$: ${data.results[0].unsettled_funds}`)
+                .addField("💰 RustyClan Lannister Debt" , `$: ${data.results[0].unsettled_debit}`)
+                .addField("🐖 Piggy Pending Pank" , `$: ${data.results[0].cash_held_for_orders} `)
+                .addField("❤️‍🔥 Cash Held " , `$: ${data.results[0].cash_held_for_options_collateral} `)
+                .setTitle("📈 KBVE Fund");
+
 
                 if( Math.random() < 0.1 ) { bonus   .setColor(0x0000FF)  .setDescription(` InterGalatic Banking Clan, \n with the partnership of the Iron Bank of Braavos, \n thanks you for your service against *Black* Crack *Rock* Cocks.`);    }
 
