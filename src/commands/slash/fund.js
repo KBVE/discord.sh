@@ -182,7 +182,7 @@ class FundCommand extends Command {
                 embed.setColor(0x57f287)
                 
                 .setTitle("📈 KBVE Fund")
-                .setAuthor({ name: 'Ami@Discord.sh', iconURL: 'https://a.kbve.com/static/image/kbve/kbve.png', url: 'https://discord.sh' })
+                // .setAuthor({ name: 'Ami@Discord.sh', iconURL: 'https://a.kbve.com/static/image/kbve/kbve.png', url: 'https://discord.sh' })
                 .setDescription(` New Embed? Test Case 3`)
                 .addFields(
                     { name: "💼  Portfolio Cash", value: `$:  ${data.results[0].portfolio_cash} USD : (🐺 + 🏧)`},
@@ -194,15 +194,15 @@ class FundCommand extends Command {
                     { name: "❤️‍🔥 Cash Held", value: `$:  ${data.results[0].cash_held_for_options_collateral} USD `, inline: true }
                   )
 
-/*
-                .addField("💼  Portfolio Cash", `$: ${data.results[0].portfolio_cash}`)
-                .addField("💸  Cash Stash ", `$: ${data.results[0].cash_available_for_withdrawal}`)
-                .addField("🐺    Margin* ", `$: ${data.results[0].cash}`)
-                .addField("🏧   Unsettled Cash" , `$: ${data.results[0].unsettled_funds}`)
-                .addField("💰 RustyClan Lannister Debt" , `$: ${data.results[0].unsettled_debit}`)
-                .addField("🐖 Piggy Pending Pank" , `$: ${data.results[0].cash_held_for_orders} `)
-                .addField("❤️‍🔥 Cash Held " , `$: ${data.results[0].cash_held_for_options_collateral} `)
-*/
+                    /*
+                                    .addField("💼  Portfolio Cash", `$: ${data.results[0].portfolio_cash}`)
+                                    .addField("💸  Cash Stash ", `$: ${data.results[0].cash_available_for_withdrawal}`)
+                                    .addField("🐺    Margin* ", `$: ${data.results[0].cash}`)
+                                    .addField("🏧   Unsettled Cash" , `$: ${data.results[0].unsettled_funds}`)
+                                    .addField("💰 RustyClan Lannister Debt" , `$: ${data.results[0].unsettled_debit}`)
+                                    .addField("🐖 Piggy Pending Pank" , `$: ${data.results[0].cash_held_for_orders} `)
+                                    .addField("❤️‍🔥 Cash Held " , `$: ${data.results[0].cash_held_for_options_collateral} `)
+                    */
                 .setTimestamp()
 
                 .setFooter({ text: 'Powered by Discord.sh', iconURL: 'https://a.kbve.com/static/image/kbve/kbve.png' });
