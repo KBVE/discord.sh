@@ -20,10 +20,7 @@ export default function Kbve() {
             Hello World. <Link href="/about">About</Link> <Link href="/">Home</Link>
           </Typography>
         </Stack>
-        {timedOut
-          ? <Typography variant="pre">{JSON.stringify({ timedOut })}</Typography>
-          : <CircularProgress />
-        }
+       
       </Stack>
     </Box>
   )
