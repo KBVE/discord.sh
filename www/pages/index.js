@@ -12,7 +12,7 @@ export default function Home() {
       <Stack direction="row" spacing={2} alignItems="center">
         <ComputerIcon />
         <Typography variant="h5">
-          Hello World. <Link href="/about">About</Link>
+          Hello World. <Link href="/about">About</Link> <Link href="/kbve">KBVE</Link>
         </Typography>
       </Stack>
     </Box>
