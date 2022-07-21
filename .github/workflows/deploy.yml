@@ -22,6 +22,7 @@ jobs:
           cache-dependency-path: www/yarn.lock
 
       - name: Build
+        working-directory: www
         run: |
           npm i --legacy-peer-deps
           npm run build
