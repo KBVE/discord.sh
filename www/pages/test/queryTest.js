@@ -7,13 +7,13 @@ import Typography from '@mui/material/Typography'
 
 const TestSlugPage = () => {
   const router = useRouter()
-  const { slug } = router.query
+  const { query } = router.params
 
   return (
     <Box>
       <Stack direction="column" spacing={1}>
-        <Typography variant="h6">{slug?.length} Query Params</Typography>
-        {slug?.map(s => (<Typography variant="body1">{s}</Typography>))}
+        <Typography variant="h6">{query ? "Existing" : "Non Existing"} Query Params</Typography>
+        {JSON.stringify({ query })}
       </Stack>
     </Box>
   )
