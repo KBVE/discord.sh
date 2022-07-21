@@ -30,6 +30,10 @@ class FundCommand extends Command {
     // https://github.com/flash-oss/medici
     // Double Entry? Quadruple Entry!
     
+
+// END OF LIFE - Line 34 - Soon
+
+
     async _pre_balance()
         {
             let _j_Object = {
@@ -101,6 +105,15 @@ class FundCommand extends Command {
                 });           
             }
     async _rh_buy(_ticker, _url, _price , _shares) {        let _rh = await this.robinhood_buy_data(_ticker, _url, _price , _shares);       return await _rh;   }
+
+
+// END OF LIFE - Line 110
+// Most of the code above will be stripped out and removed from this file. 
+// We will migrate the stock purchasing away from 
+
+
+
+
 
 
 // [0] Async Break down for the chatInputRun
@@ -180,7 +193,6 @@ class FundCommand extends Command {
             
                 // Max Stack of 10 
                 embed.setColor(0x57f287)
-                
                 .setTitle("📈 KBVE Fund")
                 // .setAuthor({ name: 'Ami@Discord.sh', iconURL: 'https://a.kbve.com/static/image/kbve/kbve.png', url: 'https://discord.sh' })
                 .setDescription(` New Embed? Test Case 3`)
