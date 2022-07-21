@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import _ from 'lodash'
-//import useSWR from 'swr'
+import useSWR from 'swr'
 // @mui/material
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
@@ -12,7 +12,7 @@ import ComputerIcon from '@mui/icons-material/Computer'
 
 const fetcher = (url) => fetch(url).then((res) => res.json()); 0
 
-export default function Home() {
+const Home = () => {
 
   const [timedOut, setTimedOut] = React.useState(false)
   React.useEffect(() => {
@@ -39,3 +39,5 @@ export default function Home() {
     </Box>
   )
 }
+
+export default Home
