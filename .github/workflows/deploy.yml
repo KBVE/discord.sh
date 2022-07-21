@@ -19,10 +19,10 @@ jobs:
         with:
           node-version: "lts/*"
           cache: "npm"
+          cache-dependency-path: www/yarn.lock
 
       - name: Build
         run: |
-          cd www
           npm i --legacy-peer-deps
           npm run build
           npm run export
