@@ -26,6 +26,8 @@ import UserIcon from 'layouts/components/UserIcon'
 
 // ** Utils
 import { handleURLQueries } from '@core/layouts/utils'
+import { SvgIconTypeMap } from '@mui/material'
+import { OverridableComponent } from '@mui/material/OverridableComponent'
 
 interface Props {
   item: NavLink
@@ -66,7 +68,9 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }: Props) => {
   // ** Hooks
   const router = useRouter()
 
-  const IconTag: ReactNode = item.icon
+  const IconTag: string | string[] | ReactNode | OverridableComponent<SvgIconTypeMap<{}, "svg">> & {
+    muiName: string;
+  } = item.icon
 
   const isNavLinkActive = () => {
     if (router.pathname === item.path || handleURLQueries(router, item.path)) {
