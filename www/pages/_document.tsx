@@ -11,7 +11,7 @@ class DiscordSHDocument extends Document {
           {/** This is where a favicon and other header specific items would go */}
           {/** Stylesheets below are for Roboto font and Material Icons */}
           <link
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons&display=optional"
             rel="stylesheet"
           />
           <link

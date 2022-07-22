@@ -1,16 +1,20 @@
 import React from 'react'
 import Link from 'next/link'
-import _ from 'lodash'
+
+// import _ from 'lodash'
+
 import useSWR from 'swr'
+
 // @mui/material
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
+
 // @mui/icons-material
 import ComputerIcon from '@mui/icons-material/Computer'
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Kbve() {
 
@@ -27,10 +31,10 @@ export default function Kbve() {
           </Typography>
         </Stack>
         {data && !error
-          ? <Typography variant="pre">{JSON.stringify({ data })}</Typography>
+          ? <Typography variant="body2">{JSON.stringify({ data })}</Typography>
           : !data && !error
             ? <CircularProgress />
-            : <Typography variant="pre" sx={{ color: 'red' }}>
+            : <Typography variant="body2" sx={{ color: 'red' }}>
               {JSON.stringify({ error })}
             </Typography>
         }
