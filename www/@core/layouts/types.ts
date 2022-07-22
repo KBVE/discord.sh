@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
 import { Settings } from '@core/context/settingsContext'
+import { OverridableComponent } from '@mui/material/OverridableComponent'
+import { SvgIconTypeMap } from '@mui/material'
 
 export type ContentWidth = 'full' | 'boxed'
 
@@ -14,7 +16,9 @@ export type NavLink = {
   badgeContent?: string
   externalLink?: boolean
   openInNewTab?: boolean
-  icon?: string | string[] | ReactNode
+  icon?: string | string[] | ReactNode | OverridableComponent<SvgIconTypeMap<{}, "svg">> & {
+    muiName: string;
+  }
   badgeColor?: 'default' | 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'
 }
 
