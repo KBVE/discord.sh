@@ -7,6 +7,8 @@ import { ContentWidth } from '../@core/layouts/types'
 type ThemeConfig = {
   mode: PaletteMode
   templateName: string
+  templateKeywords: string
+  templateFooter: string
   routingLoader: boolean
   disableRipple: boolean
   navigationSize: number
@@ -18,6 +20,8 @@ type ThemeConfig = {
 const themeConfig: ThemeConfig = {
   // ** Layout Configs
   templateName: 'Discord.sh' /* App Name */,
+  templateKeywords: 'Discord.sh, Discord Bots, Discord' /* Template Keywords */,
+  templateFooter: 'based upon Materio. Discord.sh is not affiliated with Discord.' /* Tempalte Footer */,
   mode: 'dark' /* light | dark */,
   contentWidth: 'boxed' /* full | boxed */,
 

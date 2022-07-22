@@ -85,7 +85,7 @@ const App = (props: ExtendedAppProps) => {
           name="descriptions"
           content={`${themeConfig.templateName}`}
         />
-        <meta name="keywords" content="Discord Discord.sh" />
+        <meta name="keywords" content={`${themeConfig.templateKeywords}`} />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <SettingsProvider>
