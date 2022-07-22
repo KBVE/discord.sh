@@ -83,7 +83,7 @@ const App = (props: ExtendedAppProps) => {
         <title>{`${themeConfig.templateName}`}</title>
         <meta
           name="descriptions"
-          content={`${themeConfig.templateName}`}
+          content={`${themeConfig.templateDescription}`}
         />
         <meta name="keywords" content={`${themeConfig.templateKeywords}`} />
         <meta name="viewport" content="initial-scale=1, width=device-width" />

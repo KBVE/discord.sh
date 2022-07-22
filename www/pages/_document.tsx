@@ -1,6 +1,11 @@
 import React from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
+
+// Config
+import themeConfig from 'configs/themeConfig'
+
+
 class DiscordSHDocument extends Document {
   render() {
     return (
@@ -11,7 +16,7 @@ class DiscordSHDocument extends Document {
           {/** This is where a favicon and other header specific items would go */}
           <link 
             rel="icon" 
-            href="/favicon.ico" 
+            href={`${themeConfig.favicon}`} 
             type="image/x-icon" 
           />
           {/** Stylesheets below are for Roboto font and Material Icons */}
