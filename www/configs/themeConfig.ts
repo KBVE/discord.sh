@@ -35,7 +35,8 @@ const themeConfig: ThemeConfig = {
   templateKeywords: 'Discord.sh, Discord Bots, Discord' /* Template Keywords */,
   templateFooter: ' based upon Materio. Discord.sh is not affiliated with Discord.' /* Tempalte Footer */,
 
-
+  // ** Right Hand Button
+  
   
   // ** Routing Configs
   routingLoader: true /* true | false */,
