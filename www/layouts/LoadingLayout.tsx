@@ -28,10 +28,17 @@ const LoadingLayout = ({ loading }: Props) => {
       }}
       sx={{
         zIndex: (theme: Theme) => theme.zIndex.drawer + 1,
-        bgcolor: (theme: Theme) => theme.palette.background.default,
+        bgcolor: (theme: Theme) => theme.palette.background.default
       }}
     >
-      <Stack direction="column" justifyContent="center" sx={{ textDecoration: 'none' }}>
+      <Stack
+        direction='column'
+        justifyContent='center'
+        alignItems='center'
+        spacing={2}
+        sx={{
+          textDecoration: 'none'
+        }}>
         <svg
           width={512}
           height={512}
@@ -112,6 +119,7 @@ const LoadingLayout = ({ loading }: Props) => {
             <path d='M42.721 41.142v5.176h.887v-2.145h1.773v2.145h.887v-5.176h-.887v2.145h-1.773v-2.145zm0 0' />
           </g>
         </svg>
+        <div className='dot-fire'></div>
       </Stack>
     </Backdrop>
   )
