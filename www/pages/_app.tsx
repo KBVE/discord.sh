@@ -17,6 +17,7 @@ import themeConfig from 'configs/themeConfig'
 
 // Components
 import UserLayout from 'layouts/UserLayout'
+import LoadingLayout from 'layouts/LoadingLayout'
 import ThemeComponent from '@core/theme/ThemeComponent'
 
 // Contexts
@@ -62,6 +63,12 @@ if (themeConfig.routingLoader) {
 const App = (props: ExtendedAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    setTimeout(() => setLoading(false), 3000)
+  }, [])
+
   // Variables
   const getLayout =
     Component.getLayout ??
@@ -91,7 +98,10 @@ const App = (props: ExtendedAppProps) => {
       <SettingsProvider>
         <SettingsConsumer>
           {({ settings }) => {
-            return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
+            return <ThemeComponent settings={settings}>
+              <LoadingLayout loading={loading ?? true} />
+              {getLayout(<Component {...pageProps} />)}
+            </ThemeComponent>
           }}
         </SettingsConsumer>
       </SettingsProvider>
