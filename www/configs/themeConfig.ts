@@ -21,7 +21,7 @@ const themeConfig: ThemeConfig = {
   // ** Layout Configs
   templateName: 'Discord.sh' /* App Name */,
   templateKeywords: 'Discord.sh, Discord Bots, Discord' /* Template Keywords */,
-  templateFooter: 'based upon Materio. Discord.sh is not affiliated with Discord.' /* Tempalte Footer */,
+  templateFooter: ' based upon Materio. Discord.sh is not affiliated with Discord.' /* Tempalte Footer */,
   mode: 'dark' /* light | dark */,
   contentWidth: 'boxed' /* full | boxed */,
 
