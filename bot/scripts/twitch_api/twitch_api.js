@@ -2,7 +2,7 @@ require('dotenv').config({ path: '../../.env' }); // Configuration for the envir
 //require('@sapphire/plugin-logger/register');  Plugin Ready State Removed. Will add it back it once everything is running smoothly.
 const tmi = require('tmi.js');                                                                      //  TMI.js
 const axios = require('axios');                                                                     //  Axios
-const { env } = require('../../src/./config');                                                      //  env Config
+const { env } = require('../.././config');                                                      //  env Config
 const Koa = require('koa');                                                                         //  Koa
 const router = require('@koa/router');
 const bodyParser = require('koa-bodyparser');

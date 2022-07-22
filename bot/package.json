@@ -2,10 +2,10 @@
     "name": "kbve-discord-iot-bot",
     "version": "1.1.0",
     "description": "KBVE IoT Discord Bot",
-    "main": "src/index.js",
+    "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "production": "node ./src/index.js"
+        "production": "node ./index.js"
     },
     "repository": {
         "type": "git",
