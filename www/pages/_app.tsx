@@ -66,7 +66,7 @@ const App = (props: ExtendedAppProps) => {
   const [loading, setLoading] = React.useState(true)
 
   React.useEffect(() => {
-    setTimeout(() => setLoading(false), 3000)
+    setTimeout(() => setLoading(false), 1500)
   }, [])
 
   // Variables
@@ -100,7 +100,7 @@ const App = (props: ExtendedAppProps) => {
           {({ settings }) => {
             return <ThemeComponent settings={settings}>
               <LoadingLayout loading={loading ?? true} />
-              {getLayout(<Component {...pageProps} />)}
+              {!loading && getLayout(<Component {...pageProps} />)}
             </ThemeComponent>
           }}
         </SettingsConsumer>

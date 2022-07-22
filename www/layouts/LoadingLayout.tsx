@@ -24,7 +24,7 @@ const LoadingLayout = ({ loading }: Props) => {
       transitionDuration={{
         appear: 0,
         enter: 0,
-        exit: 195
+        exit: 320
       }}
       sx={{
         zIndex: (theme: Theme) => theme.zIndex.drawer + 1,
