@@ -7,6 +7,7 @@ import { ContentWidth } from '../@core/layouts/types'
 type ThemeConfig = {
   mode: PaletteMode
   favicon: string
+  svglogo: string
   templateDescription: string
   templateName: string
   templateKeywords: string
@@ -20,15 +21,23 @@ type ThemeConfig = {
 }
 
 const themeConfig: ThemeConfig = {
-  // ** Layout Configs
-  favicon: '/static/img/logo/favicon.ico' /* Location of favicon */,
+  // ** [1] Layout Configs
+
+  // ** [1][A] Layout Configs -> Cosmetics
+  favicon: '/static/img/logo/favicon.ico' /* App Favicon */,
+  svglogo: '' /* App SVG */,
+  mode: 'dark' /* light | dark */,
+  contentWidth: 'boxed' /* full | boxed */,
+
+  // ** [1][B] Layout Configs -> Template Data
   templateName: 'Discord.sh' /* App Name */,
   templateDescription: 'Discord.sh Bot and Topsite' /* App Description */,
   templateKeywords: 'Discord.sh, Discord Bots, Discord' /* Template Keywords */,
   templateFooter: ' based upon Materio. Discord.sh is not affiliated with Discord.' /* Tempalte Footer */,
-  mode: 'dark' /* light | dark */,
-  contentWidth: 'boxed' /* full | boxed */,
 
+  // ** Right Hand Button
+  
+  
   // ** Routing Configs
   routingLoader: true /* true | false */,
 
