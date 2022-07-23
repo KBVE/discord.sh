@@ -2,7 +2,7 @@
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 
-const StatisticsCard = () => {
+const AdvertisementBannerCard = () => {
   return (
     <Card>
       <CardContent>
@@ -23,4 +23,4 @@ const StatisticsCard = () => {
   )
 }
 
-export default StatisticsCard
+export default AdvertisementBannerCard
