@@ -6,9 +6,9 @@ const StatisticsCard = () => {
   return (
     <Card>
       <CardContent>
-          <iframe
-          data-aa='2048992'
-          src='//acceptable.a-ads.com/2048992'
+        <iframe
+          data-aa="2048992"
+          src="//acceptable.a-ads.com/2048992?size=468x60&background_color=312c49&text_color=bdbed4&title_color=c6a7fe&title_hover_color=c6a7fe&link_color=c6a7fe&link_hover_color=c6a7fe"
           style={{
             border: 0,
             padding: 0,
@@ -16,7 +16,8 @@ const StatisticsCard = () => {
             height: '100%',
             overflow: 'hidden',
             backgroundColor: 'transparent',
-          }}></iframe>
+          }}
+        ></iframe>
       </CardContent>
     </Card>
   )
