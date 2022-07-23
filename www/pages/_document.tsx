@@ -9,7 +9,7 @@ import themeConfig from 'configs/themeConfig'
 class DiscordSHDocument extends Document {
   render() {
     return (
-      <Html lang="en" style={{ overflow: 'clip' }}>
+      <Html lang="en">
         <Head>
           <meta charSet="utf-8" />
           <meta name="theme-color" content="#000000" />

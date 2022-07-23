@@ -99,8 +99,8 @@ const App = (props: ExtendedAppProps) => {
         <SettingsConsumer>
           {({ settings }) => {
             return <ThemeComponent settings={settings}>
-              <LoadingLayout loading={loading ?? true} />
               {!loading && getLayout(<Component {...pageProps} />)}
+              <LoadingLayout loading={loading ?? true} />
             </ThemeComponent>
           }}
         </SettingsConsumer>
