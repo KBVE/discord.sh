@@ -1,11 +1,8 @@
-// ** React Import
-import { ReactNode } from 'react'
-
 // ** Next Import
 import Link from 'next/link'
 
 // ** MUI Imports
-import Box, { BoxProps } from '@mui/material/Box'
+import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar'
 import {
   styled
@@ -16,25 +13,25 @@ import {
 // import Typography, { TypographyProps } from '@mui/material/Typography'
 
 // ** Type Import
-import { Settings } from '@core/context/settingsContext'
+//import { Settings } from '@core/context/settingsContext'
 
 // ** Configs
 // import themeConfig from 'configs/themeConfig'
 
-interface Props {
-  hidden: boolean
-  settings: Settings
-  toggleNavVisibility: () => void
-  saveSettings: (values: Settings) => void
-  verticalNavMenuBranding?: (props?: any) => ReactNode
-}
+// interface Props {
+//   hidden: boolean
+//   settings: Settings
+//   toggleNavVisibility: () => void
+//   saveSettings: (values: Settings) => void
+//   verticalNavMenuBranding?: (props?: any) => ReactNode
+// }
 
 // ** Styled Components
-const MenuHeaderWrapper = styled(Box)<BoxProps>(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-}))
+// const MenuHeaderWrapper = styled(Box)<BoxProps>(() => ({
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'space-between',
+// }))
 
 // const HeaderTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
 //   fontWeight: 600,
@@ -54,9 +51,9 @@ const StyledLink = styled('a')({
   flexGrow: 1,
 })
 
-const VerticalNavHeader = (props: Props) => {
+const VerticalNavHeader = (/*props: Props*/) => {
   // ** Props
-  const { verticalNavMenuBranding: userVerticalNavMenuBranding } = props
+  //const { verticalNavMenuBranding: userVerticalNavMenuBranding } = props
 
   // ** Hooks
   // const theme = useTheme()
