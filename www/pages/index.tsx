@@ -17,7 +17,7 @@ import ApexChartWrapper from '@core/styles/libs/react-apexcharts'
 import Table from 'views/dashboard/Table'
 import Trophy from 'views/dashboard/Trophy'
 import TotalEarning from 'views/dashboard/TotalEarning'
-import StatisticsCard from 'views/dashboard/StatisticsCard'
+import AdvertisementCard from 'views/dashboard/AdvertisementCard'
 import WeeklyOverview from 'views/dashboard/WeeklyOverview'
 import DepositWithdraw from 'views/dashboard/DepositWithdraw'
 import SalesByCountries from 'views/dashboard/SalesByCountries'
@@ -30,7 +30,7 @@ const Dashboard = () => {
           <Trophy />
         </Grid>
         <Grid item xs={12} md={8}>
-          <StatisticsCard />
+          <AdvertisementCard />
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
           <WeeklyOverview />
