@@ -1,0 +1,40 @@
+{
+  "Servers": [
+    {
+      "_id": "ObjectId(dsfjkghsdfg)",
+      "ServerId": 342732838598082562,
+      "DateCreated": 1658553150620,
+      "LastVote": 1658553150620,
+      "MonthlyTotalVote": 1,
+      "ServerToken": 0,
+      "MemberCount": 51016,
+      "WebsiteURL": "https://owner-or-community.com",
+      "Tags": [
+        "PresetTag1",
+        "PresetTag2"
+      ],
+      "Languages": [
+        "EN",
+        "ES"
+      ],
+      "Verified": false,
+      "Blacklisted": false,
+      "Social": {
+        "Twitter": null,
+        "Reddit": null,
+        "Telegram": null,
+        "TikTok": null,
+        "Instagram": null,
+        "Facebook": null,
+        "YouTube": null
+      },
+      "NSFWLevel": 0,
+      "Private": false,
+      "ApplicationFormURL": "",
+      "Type": "Server",
+      "Platform": "Discord"
+    }
+  ],
+  "Limit": 1,
+  "Cursor": 1
+}

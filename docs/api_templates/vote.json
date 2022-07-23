@@ -1,0 +1,10 @@
+{
+  "Vote": {
+    "OriginationIPv4": "IPv4 Address",
+    "OriginationIPv6": "IPv6 Address",
+    "UserId": null,
+    "UserToken": null,
+    "ServerId": "ObjectId(sjkdhgsjdf)",
+    "Timestamp": 1658553150620
+  }
+}
