@@ -22,7 +22,7 @@ class DiscordSHDocument extends Document {
           />
           {/* Global site tag (gtag.js) - Google Analytics */}
           <Script
-            src="https://www.googletagmanager.com/gtag/js?id=G-VRBSX5FMMR"
+            src="https://www.googletagmanager.com/gtag/js?id=G-C1ZQVDRVHW"
             strategy='beforeInteractive'
           />
           <Script id="google-analytics" strategy="beforeInteractive">
@@ -31,7 +31,7 @@ class DiscordSHDocument extends Document {
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
 
-              gtag('config', 'G-VRBSX5FMMR');
+              gtag('config', 'G-C1ZQVDRVHW');
             `}
           </Script>
           {/** Stylesheets below are for Roboto font and Material Icons */}
