@@ -1,5 +1,4 @@
 // ** Icon imports
-import Login from 'mdi-material-ui/Login'
 import HomeOutline from 'mdi-material-ui/HomeOutline'
 import ControllerClassic from 'mdi-material-ui/ControllerClassic'
 import ChartBoxOutline from 'mdi-material-ui/ChartBoxOutline'
@@ -38,15 +37,15 @@ const navigation = (): VerticalNavItemsType => {
       openInNewTab: true
     },
     {
+      title: 'My Guild',
+      icon: ChartBoxOutline,
+      path: '/account'
+    },
+    {
       title: 'Categories',
       icon: ShapeOutline,
       path: '/categories',
       openInNewTab: true
-    },
-    {
-      title: 'My Guild',
-      icon: ChartBoxOutline,
-      path: '/account'
     },
     {
       sectionTitle: 'Bots'
