@@ -31,15 +31,9 @@ const FooterContent = () => {
         <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', '& :not(:last-child)': { mr: 4 } }}>
           <Link
             target='_blank'
-            href='https://discord.sh/docs/'
+            href='https://discord.sh/legal/'
           >
-            Documentation
-          </Link>
-          <Link
-            target='_blank'
-            href='https://discord.sh/support/'
-          >
-            Support
+            Legal
           </Link>
         </Box>
       )}

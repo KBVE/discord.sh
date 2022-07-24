@@ -13,7 +13,6 @@ import VerticalLayout from '@core/layouts/VerticalLayout'
 import VerticalNavItems from 'navigation/vertical'
 
 // ** Component Import
-import UpgradeToProButton from './components/UpgradeToProButton'
 import NavMenuFooter from './components/vertical/NavMenuFooter'
 import VerticalAppBarContent from './components/vertical/AppBarContent'
 
@@ -57,7 +56,6 @@ const UserLayout = ({ children }: Props) => {
       )}
     >
       {children}
-      <UpgradeToProButton />
     </VerticalLayout>
   )
 }
