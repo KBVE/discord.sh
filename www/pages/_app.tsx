@@ -17,8 +17,9 @@ import themeConfig from 'configs/themeConfig'
 
 // Components
 import UserLayout from 'layouts/UserLayout'
-import LoadingLayout from 'layouts/LoadingLayout'
 import ThemeComponent from '@core/theme/ThemeComponent'
+
+// import LoadingLayout from 'layouts/LoadingLayout'
 
 // Contexts
 import {
@@ -66,7 +67,7 @@ const App = (props: ExtendedAppProps) => {
   const [loading, setLoading] = React.useState(true)
 
   React.useEffect(() => {
-    setTimeout(() => setLoading(false), 1500)
+    setTimeout(() => setLoading(false), 100)
   }, [])
 
   // Variables
@@ -100,7 +101,7 @@ const App = (props: ExtendedAppProps) => {
           {({ settings }) => {
             return <ThemeComponent settings={settings}>
               {!loading && getLayout(<Component {...pageProps} />)}
-              <LoadingLayout loading={loading ?? true} />
+              {/* <LoadingLayout loading={loading ?? true} /> */}
             </ThemeComponent>
           }}
         </SettingsConsumer>

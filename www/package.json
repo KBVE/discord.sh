@@ -27,6 +27,7 @@
     "nprogress": "^0.2.0",
     "react": "latest",
     "react-apexcharts": "^1.4.0",
+    "react-cookie": "^4.1.1",
     "react-datepicker": "^4.8.0",
     "react-dom": "latest",
     "react-perfect-scrollbar": "^1.5.8",
