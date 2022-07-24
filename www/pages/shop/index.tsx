@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid'
 // ** Advertisement Cards
 import AdvertisementCard from 'views/dashboard/AdvertisementBannerCard'
 
-const GIndex = () => (
+const ShopIndex = () => (
 
 
     <ApexChartWrapper>
@@ -21,7 +21,7 @@ const GIndex = () => (
             
             <Grid item xs={12} md={4}>
                 <Stack>
-                        <Typography variant="h5">Gambles</Typography>
+                        <Typography variant="h5">Shop</Typography>
                         <Typography variant="body1">Check back later, WIP</Typography>
                 </Stack>
             </Grid>
@@ -40,4 +40,4 @@ const GIndex = () => (
  
 )
 
-export default GIndex
+export default ShopIndex
