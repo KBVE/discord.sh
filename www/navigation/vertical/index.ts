@@ -1,12 +1,12 @@
 // ** Icon imports
 import Login from 'mdi-material-ui/Login'
-import CubeOutline from 'mdi-material-ui/CubeOutline'
 import HomeOutline from 'mdi-material-ui/HomeOutline'
-import FormatLetterCase from 'mdi-material-ui/FormatLetterCase'
-import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
-import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
-import AlertCircleOutline from 'mdi-material-ui/AlertCircleOutline'
-import Cash100 from 'mdi-material-ui/Cash100'
+import ControllerClassic from 'mdi-material-ui/ControllerClassic'
+import ChartBoxOutline from 'mdi-material-ui/ChartBoxOutline'
+import CashMultiple from 'mdi-material-ui/CashMultiple'
+import Server from 'mdi-material-ui/Server'
+import ShapeOutline from 'mdi-material-ui/ShapeOutline'
+import RobotLoveOutline from 'mdi-material-ui/RobotLoveOutline'
 
 // ** Type import
 import { VerticalNavItemsType } from '@core/layouts/types'
@@ -19,49 +19,44 @@ const navigation = (): VerticalNavItemsType => {
       path: '/'
     },
     {
-      title: 'Account Settings',
-      icon: AccountCogOutline,
-      path: '/account'
-    },
-    {
       title: 'Shop',
-      icon: Cash100,
+      icon: CashMultiple,
       path: '/shop'
     },
     {
-      sectionTitle: 'Servers'
+      title: 'Games',
+      icon: ControllerClassic,
+      path: '/games'
+    },
+    {
+      sectionTitle: 'Guilds'
+    },
+    {
+      title: 'Guilds',
+      icon: Server,
+      path: '/guilds',
+      openInNewTab: true
     },
     {
       title: 'Categories',
-      icon: Login,
-      path: '/pages/login',
+      icon: ShapeOutline,
+      path: '/categories',
       openInNewTab: true
     },
     {
-      title: 'Register',
-      icon: AccountPlusOutline,
-      path: '/pages/register',
+      title: 'My Guild',
+      icon: ChartBoxOutline,
+      path: '/account'
+    },
+    {
+      sectionTitle: 'Bots'
+    },
+    {
+      title: 'Top Bots',
+      icon: RobotLoveOutline,
+      path: '/bots',
       openInNewTab: true
     },
-    {
-      title: 'Error',
-      icon: AlertCircleOutline,
-      path: '/pages/error',
-      openInNewTab: true
-    },
-    {
-      sectionTitle: 'User Interface'
-    },
-    {
-      title: 'Gambles',
-      icon: FormatLetterCase,
-      path: '/g'
-    },
-    {
-      icon: CubeOutline,
-      title: 'Form Layouts',
-      path: '/form-layouts'
-    }
   ]
 }
 

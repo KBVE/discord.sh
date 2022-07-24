@@ -18,14 +18,14 @@ const TriangleImg = styled('img')({
 })
 
 // Styled component for the trophy image
-const SlotImg = styled('img')({
-  right: 20,
+const RouletteImg = styled('img')({
+  right: -10,
   bottom: 20,
   height: 98,
   position: 'absolute'
 })
 
-const SlotsCard = () => {
+const RouletteCard = () => {
   // ** Hook
   const theme = useTheme()
 
@@ -34,23 +34,23 @@ const SlotsCard = () => {
   return (
     <Card sx={{ position: 'relative' }}>
       <CardContent>
-        <Typography variant='h6'>Discord.sh Slots! </Typography>
+        <Typography variant='h6'>Roulette! </Typography>
         <Typography variant='body2' sx={{ letterSpacing: '0.25px' }}>
-          Spin 2 Win on the daily slots machine!
+          Black, Red or Green! 
         </Typography>
         <Typography variant='h5' sx={{ my: 4, color: 'primary.main' }}>
-          Tons of prizes for you to grab!
+          Roll
         </Typography>
-            <Link href="/g/slots">
+            <Link href="/g/roulette">
                 <Button size='small' variant='contained'>
                 Play!
                 </Button>
             </Link>
         <TriangleImg alt='triangle background' src={`/images/misc/${imageSrc}`} />
-        <SlotImg alt='slot' src='https://rareicon.com/md/term/s/slots/images/1/slots_machine.png'  />
+        <RouletteImg alt='slot' src='https://rareicon.com/md/term/r/roulette/images/1/roulette_table.png'  />
       </CardContent>
     </Card>
   )
 }
 
-export default SlotsCard
+export default RouletteCard

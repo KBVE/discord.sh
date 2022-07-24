@@ -13,8 +13,9 @@ import Grid from '@mui/material/Grid'
 import AdvertisementCard from 'views/dashboard/AdvertisementBannerCard'
 
 
-// ** Slots Button
+// ** Game Cards
 import SlotsCard from 'views/dashboard/slots/SlotsCard'
+import RouletteCard from 'views/dashboard/slots/RouletteCard'
 
 
 
@@ -38,6 +39,10 @@ const GIndex = () => (
             
             <Grid item xs={12} md={4}>
                 <SlotsCard />
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+                <RouletteCard />
             </Grid>
 
             <Grid item xs={12}>
