@@ -12,6 +12,12 @@ import Grid from '@mui/material/Grid'
 // ** Advertisement Cards
 import AdvertisementCard from 'views/dashboard/AdvertisementBannerCard'
 
+
+// ** Slots Button
+import SlotsCard from 'views/dashboard/slots/SlotsCard'
+
+
+
 const GIndex = () => (
 
 
@@ -30,6 +36,10 @@ const GIndex = () => (
                 <AdvertisementCard />
             </Grid>
             
+            <Grid item xs={12} md={4}>
+                <SlotsCard />
+            </Grid>
+
             <Grid item xs={12}>
                 
             </Grid>

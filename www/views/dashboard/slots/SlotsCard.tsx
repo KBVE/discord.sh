@@ -19,13 +19,13 @@ const TriangleImg = styled('img')({
 
 // Styled component for the trophy image
 const SlotImg = styled('img')({
-  right: 36,
+  right: 45,
   bottom: 20,
   height: 98,
   position: 'absolute'
 })
 
-const SlotsButton = () => {
+const SlotsCard = () => {
   // ** Hook
   const theme = useTheme()
 
@@ -53,4 +53,4 @@ const SlotsButton = () => {
   )
 }
 
-export default SlotsButton
+export default SlotsCard
