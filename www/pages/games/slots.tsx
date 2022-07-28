@@ -23,7 +23,7 @@ const Slots = () => {
                 title="Discord.sh Slots!"
                 description="Spin to Win! Yay!" 
                 openGraph={{
-                    url: 'https://discord.sh/slots',
+                    url: 'https://discord.sh/games/slots',
                     title: 'Discord.sh Slots! Spin 2 Win',
                     description: 'Loads of free daily prizes for all our users!',
                     images: [
