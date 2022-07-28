@@ -16,8 +16,8 @@ export const getHashStringEx = () => {
 export const getHashString = () => {
 
     let windowHash = getHashStringEx();
-    windowHash = HashStringDecodeB64(windowHash);
-
+    windowHash = windowHash?.replace('#', '');
+    
     return windowHash;
 }
 
