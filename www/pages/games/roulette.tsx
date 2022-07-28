@@ -1,15 +1,19 @@
 import Link from 'next/link'
 import Router from 'next/router'
-
-// Import GuildId
-import { GuildID } from '@core/components/guilds/types'
+import {HashString, HashStringDecodeB64} from '@core/utils/hashstring';
 
 export default function Roulette() {
   //const router = useRouter();
   // 927516202815852596
-  const guild: RegExpMatchArray | null = (() => Router.asPath.match(/#([a-z0-9:&]+)/gi))()
+  const guild: RegExpMatchArray | null = (() => Router.asPath.match(/#([a-z0-9:=]+)/gi))()  
   
-  const guildId: GuildID = guild?.toString();
+  const guildId: HashString = guild?.toString();
+ 
+  console.log(guildId);
+  let gIds = HashStringDecodeB64(guildId); 
+  console.log(gIds);
+  gIds = JSON.stringify(gIds);
+
 
   /**
    *  https://discord.sh/roulette/#ServerId:342732838598082562:ServerId:927516202815852596◈
@@ -20,7 +24,7 @@ export default function Roulette() {
     <div>
       <div>Roulette</div>
       <div>
-        {JSON.stringify({ guild, guildId })}
+        {gIds}
         Find a random discord server to join! Back to <Link href="/">Home</Link>
       </div>
     </div>

@@ -36,12 +36,12 @@ const SlotsCard = () => {
       <CardContent>
         <Typography variant='h6'>Discord.sh Slots! </Typography>
         <Typography variant='body2' sx={{ letterSpacing: '0.25px' }}>
-          Spin 2 Win on the daily slots machine!
+          Spin 2 Win on the daily slots machine! 
         </Typography>
         <Typography variant='h5' sx={{ my: 4, color: 'primary.main' }}>
           Tons of prizes for you to grab!
         </Typography>
-            <Link href="/g/slots">
+            <Link href="/games/slots">
                 <Button size='small' variant='contained'>
                 Play!
                 </Button>

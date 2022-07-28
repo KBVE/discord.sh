@@ -2,8 +2,8 @@
 import Grid from '@mui/material/Grid'
 
 // ** Trophy Comp Test
-import SlotsTrophy from 'views/dashboard/slots/SlotsTrophy'
-import SlotsTable from 'views/dashboard/slots/SlotsTable'
+import SlotsTrophy from 'views/dashboard/games/slots/SlotsTrophy'
+import SlotsTable from 'views/dashboard/games/slots/SlotsTable'
 
 
 // ** Styled Component Import

@@ -13,7 +13,7 @@ import Grid from '@mui/material/Grid'
 import AdvertisementCard from 'views/dashboard/AdvertisementBannerCard'
 
 // ** Slots Button
-import SlotsButton from 'views/dashboard/slots/SlotsCard'
+import SlotsButton from 'views/dashboard/games/slots/SlotsCard'
 
 
 const BotsIndex = () => (

@@ -14,8 +14,8 @@ import AdvertisementCard from 'views/dashboard/AdvertisementBannerCard'
 
 
 // ** Game Cards
-import SlotsCard from 'views/dashboard/slots/SlotsCard'
-import RouletteCard from 'views/dashboard/slots/RouletteCard'
+import SlotsCard from 'views/dashboard/games/slots/SlotsCard'
+import RouletteCard from 'views/dashboard/games/roulette/RouletteCard'
 
 
 
