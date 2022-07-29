@@ -20,6 +20,7 @@ import AppBar from './components/vertical/appBar'
 import Navigation from './components/vertical/navigation'
 import Footer from './components/shared-components/footer'
 import ScrollToTop from '@core/components/scroll-to-top'
+import BackdropComponent from 'layouts/components/Backdrop'
 
 // ** Styled Component
 import DatePickerWrapper from '@core/styles/libs/react-datepicker'
@@ -64,6 +65,7 @@ const VerticalLayout = (props: LayoutProps) => {
 
   return (
     <>
+      <BackdropComponent />
       <VerticalLayoutWrapper className='layout-wrapper'>
         {/* Navigation Menu */}
         <Navigation

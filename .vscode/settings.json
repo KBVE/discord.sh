@@ -7,8 +7,10 @@
       "datepicker",
       "fontsource",
       "gtag",
+      "hashstring",
       "nprogress",
       "popperjs",
+      "reduxjs",
       "roboto"
     ]
 }

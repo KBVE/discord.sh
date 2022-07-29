@@ -22,37 +22,37 @@ import RouletteCard from 'views/dashboard/games/roulette/RouletteCard'
 const GIndex = () => (
 
 
-    <ApexChartWrapper>
+  <ApexChartWrapper>
 
-        <Grid container spacing={6}>
-            
-            <Grid item xs={12} md={4}>
-                <Stack>
-                        <Typography variant="h5">Gambles</Typography>
-                        <Typography variant="body1">Check back later, WIP</Typography>
-                </Stack>
-            </Grid>
-            
-            <Grid item xs={12} md={8}>
-                <AdvertisementCard />
-            </Grid>
-            
-            <Grid item xs={12} md={4}>
-                <SlotsCard />
-            </Grid>
+    <Grid container spacing={6}>
 
-            <Grid item xs={12} md={4}>
-                <RouletteCard />
-            </Grid>
+      <Grid item xs={12} md={4}>
+        <Stack>
+          <Typography variant="h5">Gambles</Typography>
+          <Typography variant="body1">Check back later, WIP</Typography>
+        </Stack>
+      </Grid>
 
-            <Grid item xs={12}>
-                
-            </Grid>
+      <Grid item xs={12} md={8}>
+        <AdvertisementCard />
+      </Grid>
 
-        </Grid>
+      <Grid item xs={12} md={4}>
+        <SlotsCard />
+      </Grid>
 
-    </ApexChartWrapper>
- 
+      <Grid item xs={12} md={4}>
+        <RouletteCard />
+      </Grid>
+
+      <Grid item xs={12}>
+
+      </Grid>
+
+    </Grid>
+
+  </ApexChartWrapper>
+
 )
 
 export default GIndex

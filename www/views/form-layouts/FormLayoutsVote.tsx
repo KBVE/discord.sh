@@ -1,27 +1,21 @@
 // ** React Imports
-import React from 'react';
-
+import { ChangeEvent } from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
+import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
-import Checkbox from '@mui/material/Checkbox'
 import { styled } from '@mui/material/styles'
-import TextField from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
-
 import CardContent from '@mui/material/CardContent'
 
-import FormControlLabel from '@mui/material/FormControlLabel'
+// ** Library
+import { getHashString } from '@core/utils/hashstring'
 
-
-type VoteFormData = {
-  gId?: string;
-  username?: string;
-};
-
+// ** Redux
+import { useAppSelector, useAppDispatch } from '@core/hooks/redux'
+import * as backdropReducer from 'redux/reducers/backdropReducer'
 
 // Styled component for the form
 const Form = styled('form')(({ theme }) => ({
@@ -31,48 +25,47 @@ const Form = styled('form')(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`
 }))
 
-const FormLayoutsAlignment = ({ gId, username }: VoteFormData ) => {
+const FormLayoutsAlignment = () => {
+  const backdropState = useAppSelector(state => state.backdrop)
+  const hashString: string | undefined = getHashString()
+  const dispatch = useAppDispatch()
 
+  const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
+    // This is where your submit code will be
 
+    console.log(hashString)
+    dispatch(backdropReducer.set({
+      open: true,
+      children: undefined,
+      timeout: 3000
+    }))
+
+    
+  }
 
   return (
     <Card>
       <CardHeader title='Daily Vote @ Guild' titleTypographyProps={{ variant: 'h6' }} />
       <CardContent sx={{ minHeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Form onSubmit={e => e.preventDefault()}>
-          <Grid container spacing={5}>
-            <Grid item xs={12}>
-              <Typography variant='h5'>Guild</Typography>
-            </Grid>
-
-            <Grid item xs={12}>
-              
-              <TextField fullWidth label='Guild ID' name='guildId' placeholder={gId} />
-            
-            </Grid>
-            
-            <Grid item xs={12}>
-
-              <TextField fullWidth label='Username' name='username' placeholder={username} />
-
-            </Grid>
-            
-            <Grid item xs={12}>
-              <FormControlLabel
-                label='Remember me'
-                control={<Checkbox name='form-layouts-alignment-checkbox' />}
-                sx={{ '& .MuiButtonBase-root': { paddingTop: 0, paddingBottom: 0 } }}
-              />
-            </Grid>
-            
-            <Grid item xs={12}>
-              <Button size='large' type='submit' variant='contained' sx={{ width: '100%' }}>
-                Vote
-              </Button>
-            </Grid>
-
-          </Grid>
+        <Typography variant="caption">{JSON.stringify(backdropState)}</Typography>
+        <Form onSubmit={handleSubmit}>
+          <Stack direction='column' spacing={4} p={4}>
+            <Typography variant='h5'>Guild Name</Typography>
+            <Button
+              size='large'
+              type='submit'
+              variant='contained'
+              sx={{
+                width: '100%',
+                textTransform: 'none',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              <Typography variant='h5'>Vote</Typography>
+            </Button>
+          </Stack>
         </Form>
       </CardContent>
     </Card>
@@ -80,4 +73,3 @@ const FormLayoutsAlignment = ({ gId, username }: VoteFormData ) => {
 }
 
 export default FormLayoutsAlignment
- 

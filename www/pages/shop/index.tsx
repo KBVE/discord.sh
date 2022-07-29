@@ -13,31 +13,24 @@ import Grid from '@mui/material/Grid'
 import AdvertisementCard from 'views/dashboard/AdvertisementBannerCard'
 
 const ShopIndex = () => (
+  <ApexChartWrapper>
+    <Grid container spacing={6}>
+      <Grid item xs={12} md={4}>
+        <Stack>
+          <Typography variant="h5">Shop</Typography>
+          <Typography variant="body1">Check back later, WIP</Typography>
+        </Stack>
+      </Grid>
 
+      <Grid item xs={12} md={8}>
+        <AdvertisementCard />
+      </Grid>
 
-    <ApexChartWrapper>
+      <Grid item xs={12}>
 
-        <Grid container spacing={6}>
-            
-            <Grid item xs={12} md={4}>
-                <Stack>
-                        <Typography variant="h5">Shop</Typography>
-                        <Typography variant="body1">Check back later, WIP</Typography>
-                </Stack>
-            </Grid>
-            
-            <Grid item xs={12} md={8}>
-                <AdvertisementCard />
-            </Grid>
-            
-            <Grid item xs={12}>
-                
-            </Grid>
-
-        </Grid>
-
-    </ApexChartWrapper>
- 
+      </Grid>
+    </Grid>
+  </ApexChartWrapper>
 )
 
 export default ShopIndex

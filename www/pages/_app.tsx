@@ -5,6 +5,10 @@ import { Router } from 'next/router'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 
+// Redux
+import { Provider } from 'react-redux'
+import store from 'redux/store'
+
 // Loader
 import NProgress from 'nprogress'
 
@@ -86,27 +90,28 @@ const App = (props: ExtendedAppProps) => {
     ) => <UserLayout>{page}</UserLayout>)
 
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <title>{`${themeConfig.templateName}`}</title>
-        <meta
-          name="descriptions"
-          content={`${themeConfig.templateDescription}`}
-        />
-        <meta name="keywords" content={`${themeConfig.templateKeywords}`} />
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <SettingsProvider>
-        <SettingsConsumer>
-          {({ settings }) => {
-            return <ThemeComponent settings={settings}>
-              {!loading && getLayout(<Component {...pageProps} />)}
-              {/* <LoadingLayout loading={loading ?? true} /> */}
-            </ThemeComponent>
-          }}
-        </SettingsConsumer>
-      </SettingsProvider>
-    </CacheProvider>
+    <Provider store={store}>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <title>{`${themeConfig.templateName}`}</title>
+          <meta
+            name="descriptions"
+            content={`${themeConfig.templateDescription}`}
+          />
+          <meta name="keywords" content={`${themeConfig.templateKeywords}`} />
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+        </Head>
+        <SettingsProvider>
+          <SettingsConsumer>
+            {({ settings }) => {
+              return <ThemeComponent settings={settings}>
+                {!loading && getLayout(<Component {...pageProps} />)}
+              </ThemeComponent>
+            }}
+          </SettingsConsumer>
+        </SettingsProvider>
+      </CacheProvider>
+    </Provider>
   )
 }
 
