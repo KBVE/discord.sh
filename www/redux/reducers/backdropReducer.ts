@@ -6,7 +6,7 @@ import type { AppState } from '../store'
 
 export interface BackdropState {
   open: boolean,
-  children: ReactFragment | undefined,
+  children: ReactFragment | JSX.Element | undefined,
   timeout: number | undefined,
 }
 

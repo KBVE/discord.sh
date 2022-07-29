@@ -32,6 +32,9 @@ const BackdropComponent = () => {
   return (
     <Backdrop
       open={open}
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+      }}
     >
       {!!children
         ? children

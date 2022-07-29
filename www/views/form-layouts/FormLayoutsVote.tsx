@@ -10,6 +10,9 @@ import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
+// ** Components
+import LoadingComponent from 'layouts/components/LoadingComponent'
+
 // ** Library
 import { getHashString } from '@core/utils/hashstring'
 
@@ -38,11 +41,11 @@ const FormLayoutsAlignment = () => {
     console.log(hashString)
     dispatch(backdropReducer.set({
       open: true,
-      children: undefined,
-      timeout: 3000
+      children: <LoadingComponent />,
+      timeout: 10000
     }))
 
-    
+
   }
 
   return (
@@ -65,6 +68,7 @@ const FormLayoutsAlignment = () => {
             >
               <Typography variant='h5'>Vote</Typography>
             </Button>
+              
           </Stack>
         </Form>
       </CardContent>
