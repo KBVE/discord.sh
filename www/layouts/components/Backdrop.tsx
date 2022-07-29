@@ -3,7 +3,10 @@ import React from 'react'
 
 // ** @mui
 import Backdrop from '@mui/material/Backdrop'
-import CircularProgress from '@mui/material/CircularProgress'
+import Stack from '@mui/material/Stack'
+
+// ** Core Component
+import LoadingComponent from './LoadingComponent'
 
 // ** Redux
 import { useAppDispatch, useAppSelector } from '@core/hooks/redux'
@@ -25,7 +28,7 @@ const BackdropComponent = () => {
     if (open) {
       interval = setTimeout(() => dispatch(backdropReducer.reset()), timeout ?? 500)
     }
-    
+
     return () => clearTimeout(interval)
   }, [dispatch, open, timeout])
 
@@ -36,9 +39,10 @@ const BackdropComponent = () => {
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
-      {!!children
-        ? children
-        : <CircularProgress />}
+      <Stack direction="column" spacing={2}>
+        <LoadingComponent />
+        {children}
+      </Stack>
     </Backdrop>
   )
 }

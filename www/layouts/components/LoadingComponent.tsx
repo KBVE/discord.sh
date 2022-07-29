@@ -1,17 +1,22 @@
 import Stack from '@mui/material/Stack'
+import { useTheme, useMediaQuery } from '@mui/material'
 
-const LoadingComponent = () => (
+const LoadingComponent = () => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
+  return (
   <Stack
     direction='column'
     justifyContent='center'
     alignItems='center'
-    spacing={2}
+    spacing={isMobile ? 4 : 2}
     sx={{
       textDecoration: 'none'
     }}>
     <svg
-      width={512}
-      height={512}
+      width={isMobile ? 256 : 512}
+      height={isMobile ? 256 : 512}      
       version='1.1'
       viewBox='0 0 48 48'
       xmlns='http://www.w3.org/2000/svg'
@@ -92,5 +97,6 @@ const LoadingComponent = () => (
     <div className='dot-fire'></div>
   </Stack>
 )
+  }
 
 export default LoadingComponent
