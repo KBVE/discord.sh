@@ -1,5 +1,6 @@
 // ** React Imports
-import { ChangeEvent, MouseEvent, useState } from 'react'
+import React from 'react';
+
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -10,24 +11,16 @@ import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
-import IconButton from '@mui/material/IconButton'
+
 import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import InputAdornment from '@mui/material/InputAdornment'
+
 import FormControlLabel from '@mui/material/FormControlLabel'
 
-// ** Icons Imports
-import EyeOutline from 'mdi-material-ui/EyeOutline'
-import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
-
-interface State {
-  gId: string
-  password: string
-  showPassword: boolean
-}
+type VoteFormData = {
+  gId?: string;
+  username?: string;
+};
 
 
 // Styled component for the form
@@ -38,25 +31,10 @@ const Form = styled('form')(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`
 }))
 
-const FormLayoutsAlignment = () => {
+const FormLayoutsAlignment = ({ gId, username }: VoteFormData ) => {
 
-  // ** State
-  const [values, setValues] = useState<State>({
-    gId: '',
-    password: '',
-    showPassword: false
-  })
 
-  // Handle Password
-  const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword })
-  }
-  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-  }
+
 
   return (
     <Card>
@@ -67,35 +45,19 @@ const FormLayoutsAlignment = () => {
             <Grid item xs={12}>
               <Typography variant='h5'>Guild</Typography>
             </Grid>
+
             <Grid item xs={12}>
-              <TextField fullWidth label='Guild ID' placeholder='' />
+              
+              <TextField fullWidth label='Guild ID' name='guildId' placeholder={gId} />
+            
             </Grid>
+            
             <Grid item xs={12}>
 
-              <FormControl fullWidth>
-                <InputLabel htmlFor='form-layouts-alignment-password'>Password</InputLabel>
-                <OutlinedInput
-                  label='Password'
-                  value={values.password}
-                  onChange={handleChange('password')}
-                  id='form-layouts-alignment-password'
-                  type={values.showPassword ? 'text' : 'password'}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      <IconButton
-                        edge='end'
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        aria-label='toggle password visibility'
-                      >
-                        {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
+              <TextField fullWidth label='Username' name='username' placeholder={username} />
 
             </Grid>
+            
             <Grid item xs={12}>
               <FormControlLabel
                 label='Remember me'
@@ -103,11 +65,13 @@ const FormLayoutsAlignment = () => {
                 sx={{ '& .MuiButtonBase-root': { paddingTop: 0, paddingBottom: 0 } }}
               />
             </Grid>
+            
             <Grid item xs={12}>
               <Button size='large' type='submit' variant='contained' sx={{ width: '100%' }}>
                 Vote
               </Button>
             </Grid>
+
           </Grid>
         </Form>
       </CardContent>
@@ -116,3 +80,4 @@ const FormLayoutsAlignment = () => {
 }
 
 export default FormLayoutsAlignment
+ 
