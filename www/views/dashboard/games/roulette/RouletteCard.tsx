@@ -41,7 +41,7 @@ const RouletteCard = () => {
         <Typography variant='h5' sx={{ my: 4, color: 'primary.main' }}>
           Roll
         </Typography>
-            <Link href="/g/roulette">
+            <Link href="/games/roulette">
                 <Button size='small' variant='contained'>
                 Play!
                 </Button>
