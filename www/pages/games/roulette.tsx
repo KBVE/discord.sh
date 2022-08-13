@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid'
 // ** Link
 import Link from 'next/link'
 
+// ** HashString
 import { _jd64 } from '@core/utils/hashstring';
 
 // ** Styled Component Import

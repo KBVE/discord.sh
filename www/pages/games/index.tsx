@@ -16,7 +16,7 @@ import AdvertisementCard from 'views/dashboard/AdvertisementBannerCard'
 // ** Game Cards
 import SlotsCard from 'views/dashboard/games/slots/SlotsCard'
 import RouletteCard from 'views/dashboard/games/roulette/RouletteCard'
-
+import DiceCard from 'views/dashboard/games/dice/DiceCard'
 
 
 const GIndex = () => (
@@ -43,6 +43,10 @@ const GIndex = () => (
 
       <Grid item xs={12} md={4}>
         <RouletteCard />
+      </Grid>
+
+      <Grid item xs={12} md={4}>
+        <DiceCard />
       </Grid>
 
       <Grid item xs={12}>
