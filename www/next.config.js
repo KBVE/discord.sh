@@ -2,7 +2,7 @@
 // next.config.js
 const isProd = process.env.NODE_ENV === 'production'
 const path = require('path')
-const withPWA = require('next-paw')
+const withPWA = require('next-pwa')
 
 module.exports = withPWA({
   //  basePath: '/discord.sh',
