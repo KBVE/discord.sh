@@ -13,11 +13,18 @@ import { _jd64 } from '@core/utils/hashstring';
 
 const DiceIndex = () => {
 
-    const diceIds = Object.entries(JSON.parse(_jd64()));
+    let diceIds; 
+    try {
+        diceIds = Object.entries(JSON.parse(_jd64()));
+            
+        // ** Testing the dice Ids 
+            diceIds.forEach(([key, value]) => {
+                console.log(`${key} ${value}`);
+                });
 
-    diceIds.forEach(([key, value]) => {
-      console.log(`${key} ${value}`);
-    });
+    }   catch(err) { console.log(err); }
+
+
             
         return (
                 
@@ -47,7 +54,7 @@ const DiceIndex = () => {
                 </Grid>
 
             </ApexChartWrapper>
-            
+
             </>
 
 

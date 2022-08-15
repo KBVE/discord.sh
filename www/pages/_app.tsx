@@ -100,6 +100,7 @@ const App = (props: ExtendedAppProps) => {
           />
           <meta name="keywords" content={`${themeConfig.templateKeywords}`} />
           <meta name="viewport" content="initial-scale=1, width=device-width" />
+          <link rel="manifest" href="/manifest.json" />
         </Head>
         <SettingsProvider>
           <SettingsConsumer>
