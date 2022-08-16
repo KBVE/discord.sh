@@ -14,10 +14,10 @@ module.exports = withPWA({
   reactStrictMode: false,
   pwa: {
     dest: "/public",
-    scope: "/discord.sh",
     register: true,
     skipWaiting: true,
-    runtimeCaching
+    runtimeCaching,
+    buildExcludes: [/middleware-manifest.json$/]
   },
   webpack: config => {
     config.resolve.alias = {
