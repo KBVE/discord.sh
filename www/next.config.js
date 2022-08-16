@@ -13,7 +13,7 @@ module.exports = withPWA({
   trailingSlash: true,
   reactStrictMode: false,
   pwa: {
-    dest: "/out",
+    dest: "/public",
     register: true,
     skipWaiting: true,
     runtimeCaching
