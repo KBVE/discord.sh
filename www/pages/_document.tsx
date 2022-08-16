@@ -12,6 +12,7 @@ class DiscordSHDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <base href="https://discord.sh/" />
           <meta charSet="utf-8" />
           <meta name="theme-color" content="#000000" />
           {/** This is where a favicon and other header specific items would go */}
