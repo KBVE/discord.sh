@@ -159,3 +159,7 @@ pids
 
 # vercel
 .vercel
+
+# Web Workers
+/www/public/sw.js
+/www/public/workbox-*

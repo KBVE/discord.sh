@@ -2,13 +2,22 @@
 // next.config.js
 const isProd = process.env.NODE_ENV === 'production'
 const path = require('path')
+
 const withPWA = require('next-pwa')
+const runtimeCaching = require("next-pwa/cache")
+
 
 module.exports = withPWA({
   //  basePath: '/discord.sh',
   assetPrefix: isProd ? '/' : '',
   trailingSlash: true,
   reactStrictMode: false,
+  pwa: {
+    dest: "/out",
+    register: true,
+    skipWaiting: true,
+    runtimeCaching
+  },
   webpack: config => {
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -16,11 +25,5 @@ module.exports = withPWA({
     }
 
     return config
-  },
-  pwa: {
-    dest: "out",
-    swDest: "sw.js",
-    register: true,
-    skipWaiting: true,
   }
 });
