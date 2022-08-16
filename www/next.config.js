@@ -32,7 +32,7 @@ module.exports = withPWA({
       apexcharts: path.resolve(__dirname, './node_modules/apexcharts-clevision')
     }
 
-    config.output.publicPath = ''
+    config.output.publicPath = './public'
 
     return config
   }
