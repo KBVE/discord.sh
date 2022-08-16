@@ -34,7 +34,8 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Guilds',
       icon: Server,
       path: '/guilds',
-      openInNewTab: true
+
+      //openInNewTab: true
     },
     {
       title: 'My Guild',
@@ -45,7 +46,6 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Categories',
       icon: ShapeOutline,
       path: '/categories',
-      openInNewTab: true
     },
     {
       sectionTitle: 'Bots'
@@ -54,7 +54,8 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Top Bots',
       icon: RobotLoveOutline,
       path: '/bots',
-      openInNewTab: true
+
+      //openInNewTab: true
     },
   ]
 }
