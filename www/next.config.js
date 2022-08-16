@@ -14,6 +14,7 @@ module.exports = withPWA({
   reactStrictMode: false,
   pwa: {
     dest: "/public",
+    scope: "/discord.sh",
     register: true,
     skipWaiting: true,
     runtimeCaching
