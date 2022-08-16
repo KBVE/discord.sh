@@ -14,10 +14,17 @@ module.exports = withPWA({
   reactStrictMode: false,
   pwa: {
     dest: "/public",
+    sw: "/sw.js",
     register: true,
     skipWaiting: true,
     runtimeCaching,
-    buildExcludes: [/middleware-manifest.json$/]
+    buildExcludes: [
+      /middleware-manifest\.json$/,
+      /_middleware\.js$/,
+      /_middleware\.js\.map$/,
+      /middleware-runtime\.js$/,
+      /server\/pages\/_middleware\.js$/,
+    ]
   },
   webpack: config => {
     config.resolve.alias = {
