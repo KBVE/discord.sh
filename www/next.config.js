@@ -18,7 +18,8 @@ module.exports = withPWA({
     return config
   },
   pwa: {
-    dest: "out",
+    dest: "public",
+    swDest: "sw.js",
     register: true,
     skipWaiting: true,
   }
