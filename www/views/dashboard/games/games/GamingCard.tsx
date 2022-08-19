@@ -35,11 +35,17 @@ const GamingCard = () => {
           Check Back Later, WIP
         </Typography>
         <Typography variant='h5' sx={{ my: 4, color: 'primary.main' }}>
-          $42.8k
+          We got a ton of prizes! But who are they for?!
         </Typography>
-        <Button size='small' variant='contained'>
-          View Sales
-        </Button>
+        <Button size='small' variant='contained'> Play Today's Game   </Button>
+        
+       {/*  
+       
+        Rebuilding this card for the Gaming section. I will take any ideas here for them. 
+        https://github.com/KBVE/discord.sh/issues/6
+        
+       */}
+
         <TriangleImg alt='triangle background' src={`/images/misc/${imageSrc}`} />
         <TrophyImg alt='trophy' src='/images/misc/trophy.png' />
       </CardContent>
