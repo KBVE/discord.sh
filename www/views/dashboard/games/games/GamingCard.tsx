@@ -35,9 +35,9 @@ const GamingCard = () => {
           Check Back Later, WIP
         </Typography>
         <Typography variant='h5' sx={{ my: 4, color: 'primary.main' }}>
-          We got a ton of prizes! But who are they for?!
+          We got a ton of prizes!
         </Typography>
-        <Button size='small' variant='contained'> Play Today's Game   </Button>
+        <Button size='small' variant='contained'> Play The Daily </Button>
         
        {/*  
        

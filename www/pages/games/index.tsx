@@ -15,6 +15,7 @@ import SlotsCard from 'views/dashboard/games/slots/SlotsCard'
 import RouletteCard from 'views/dashboard/games/roulette/RouletteCard'
 import DiceCard from 'views/dashboard/games/dice/DiceCard'
 import GamingCard from 'views/dashboard/games/games/GamingCard'
+import GamingPrizeCard from '../../views/dashboard/games/games/GamingPrizeCard';
 
 
 const GIndex = () => (
@@ -45,7 +46,7 @@ const GIndex = () => (
       </Grid>
 
       <Grid item xs={12}>
-
+        <GamingPrizeCard />
       </Grid>
 
     </Grid>
