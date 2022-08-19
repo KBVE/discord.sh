@@ -26,6 +26,26 @@ import Box from '@mui/material/Box'
 
 
 
+interface PrizeType {   
+    prize_hash: string
+    prize_title: string
+    prize_category: string
+}
+
+const prize_rows: PrizeType[] = [
+    {
+        prize_hash: 'hash_01',
+        prize_title: 'CD Key for Humble Project X',
+        prize_category: 'steam_key'
+    },
+    {
+        prize_hash: 'hash_02',
+        prize_title: 'CD Key for Humble Project Y',
+        prize_category: 'steam_key'
+    }
+]
+
+
 interface RowType {
     age: number
     name: string
@@ -135,6 +155,51 @@ const GamingPrizeCard = () => {
     <Card>
       <TableContainer>
         <Table sx={{ minWidth: 800 }} aria-label='table in dashboard'>
+
+        { /*
+                Updated Prize Row Data below. Based upon the Original Row Data.
+            */ }
+
+          <TableHead>
+            <TableRow>
+              <TableCell>Hash</TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell>Category</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            
+          {prize_rows.map((row: PrizeType) => (
+              <TableRow hover key={row.prize_hash} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
+                <TableCell sx={{ py: theme => `${theme.spacing(0.5)} !important` }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Typography sx={{ fontWeight: 500, fontSize: '0.875rem !important' }}>{row.prize_hash}</Typography>
+                    <Typography variant='caption'>{row.prize_hash}</Typography>
+                  </Box>
+                </TableCell>
+                <TableCell>{row.prize_hash}</TableCell>
+                <TableCell>{row.prize_title}</TableCell>
+                <TableCell>{row.prize_category}</TableCell>
+                <TableCell>
+                  
+                </TableCell>
+              </TableRow>
+            ))}
+
+        </TableBody>
+        </Table>
+
+
+        { /*
+                Original Row Data from the mockup below.
+                This is kept as a reference.
+            */ }
+
+
+        <Table sx={{ minWidth: 800 }} aria-label='table in dashboard'>
+
+
+
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
@@ -146,6 +211,11 @@ const GamingPrizeCard = () => {
             </TableRow>
           </TableHead>
           <TableBody>
+            
+            
+  
+
+
             {rows.map((row: RowType) => (
               <TableRow hover key={row.name} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
                 <TableCell sx={{ py: theme => `${theme.spacing(0.5)} !important` }}>
