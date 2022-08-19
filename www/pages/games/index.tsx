@@ -17,6 +17,7 @@ import AdvertisementCard from 'views/dashboard/AdvertisementBannerCard'
 import SlotsCard from 'views/dashboard/games/slots/SlotsCard'
 import RouletteCard from 'views/dashboard/games/roulette/RouletteCard'
 import DiceCard from 'views/dashboard/games/dice/DiceCard'
+import GamingCard from 'views/dashboard/games/games/GamingCard'
 
 
 const GIndex = () => (
@@ -27,10 +28,7 @@ const GIndex = () => (
     <Grid container spacing={6}>
 
       <Grid item xs={12} md={4}>
-        <Stack>
-          <Typography variant="h5">Gambles</Typography>
-          <Typography variant="body1">Check back later, WIP</Typography>
-        </Stack>
+        <GamingCard />
       </Grid>
 
       <Grid item xs={12} md={8}>
