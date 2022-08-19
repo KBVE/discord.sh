@@ -177,7 +177,6 @@ const GamingPrizeCard = () => {
                     <Typography variant='caption'>{row.prize_hash}</Typography>
                   </Box>
                 </TableCell>
-                <TableCell>{row.prize_hash}</TableCell>
                 <TableCell>{row.prize_title}</TableCell>
                 <TableCell>{row.prize_category}</TableCell>
                 <TableCell>
