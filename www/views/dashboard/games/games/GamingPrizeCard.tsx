@@ -24,6 +24,9 @@ import Chip from '@mui/material/Chip'
 // ** Box Import
 import Box from '@mui/material/Box'
 
+// ** Material Divider
+import Divider from '@mui/material/Divider';
+
 
 
 interface PrizeType {   
@@ -193,7 +196,8 @@ const GamingPrizeCard = () => {
                 Original Row Data from the mockup below.
                 This is kept as a reference.
             */ }
-
+            
+        <Divider></Divider>
 
         <Table sx={{ minWidth: 800 }} aria-label='table in dashboard'>
 
