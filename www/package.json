@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next",
+    "dev": "next dev",
     "build": "next build && next export && echo discord.sh >> out/CNAME",
     "lint": "eslint --fix \"pages/**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier --write \"pages/**/*.{js,jsx,ts,tsx}\"",
