@@ -3,7 +3,7 @@ import Document, { Html, Head, Main, NextScript } from 'next/document'
 import Script from 'next/script'
 
 const isProd = process.env.NODE_ENV === 'production'
-const temp = `<base href="https://discord.sh/" />`
+const temp = `${<base href="https://discord.sh/" />}`
 
 // Config
 import themeConfig from 'configs/themeConfig'
