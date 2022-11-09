@@ -6,9 +6,9 @@ const path = require('path')
 const withPWA = require('next-pwa')
 const runtimeCaching = require("next-pwa/cache")
 
+if(isProd) {console.log("Production Baby!")} else {console.log("Dev Mode")}
 
 module.exports = withPWA({
-  //  basePath: '/discord.sh',
   assetPrefix: isProd ? '/' : '',
   trailingSlash: true,
   reactStrictMode: false,

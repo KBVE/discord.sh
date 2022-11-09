@@ -162,4 +162,5 @@ pids
 
 # Web Workers
 /www/public/sw.js
+/www/public/sw.js.map
 /www/public/workbox-*

@@ -21,7 +21,7 @@ export default function Kbve() {
 
   const { data, error } = useSWR(`https://api.publicapis.org/entries`, fetcher)
 
-  // From https://github.com/KBVE/discord.sh/commit/3d0b5f8cf2acc21aec964e5af5f3416875a25353
+// From https://github.com/KBVE/discord.sh/commit/3d0b5f8cf2acc21aec964e5af5f3416875a25353
   return (
     <Box p={4}>
       <Stack direction="column" spacing={4}>

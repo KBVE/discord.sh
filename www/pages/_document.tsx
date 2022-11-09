@@ -2,6 +2,8 @@ import React from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import Script from 'next/script'
 
+// const isProd = process.env.NODE_ENV === 'production'
+// const temp = `${<base href="https://discord.sh/" />}`
 
 // Config
 import themeConfig from 'configs/themeConfig'
@@ -12,7 +14,7 @@ class DiscordSHDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <base href="https://discord.sh/" />
+          {/* {isProd ? temp : ''} */}
           <meta charSet="utf-8" />
           <meta name="theme-color" content="#000000" />
           {/** This is where a favicon and other header specific items would go */}
