@@ -1,0 +1,37 @@
+---
+title: |
+  Las Estrellas Están a Tu Alcance
+description: |
+  Convierte la inspiración en conexión.
+  StarYo te ayuda a descubrir, enviar mensajes y colaborar con los creadores que dan forma al universo de influencia.
+template: splash
+hero:
+  tagline: La forma más inteligente de alcanzar a los influencers.
+  image:
+    file: ../../../assets/houston.webp
+  rawHtml: "<b> negrita </b>"
+
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Próximos pasos
+
+<CardGrid stagger>
+	<Card title="Actualizar contenido" icon="pencil">
+		Edita `src/content/docs/index.mdx` para ver los cambios en esta página.
+	</Card>
+	<Card title="Cambiar diseño de página" icon="document">
+		Elimina `template: splash` en `src/content/docs/index.mdx` para mostrar una
+		barra lateral en esta página.
+	</Card>
+	<Card title="Agregar nuevo contenido" icon="add-document">
+		Agrega archivos Markdown o MDX a `src/content/docs` para crear nuevas páginas.
+	</Card>
+	<Card title="Configurar tu sitio" icon="setting">
+		Edita tu `sidebar` y otras configuraciones en `astro.config.mjs`.
+	</Card>
+	<Card title="Leer la documentación" icon="open-book">
+		Aprende más en [la documentación de Starlight](https://starlight.astro.build/).
+	</Card>
+</CardGrid>

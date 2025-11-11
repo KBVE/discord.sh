@@ -1,0 +1,37 @@
+---
+title: |
+  星は手の届くところに
+description: |
+  インスピレーションをつながりに変える。
+  StarYoは、影響力の世界を形作るクリエイターを発見し、メッセージを送り、コラボレーションするお手伝いをします。
+template: splash
+hero:
+  tagline: インフルエンサーに到達するスマートな方法。
+  image:
+    file: ../../../assets/houston.webp
+  rawHtml: "<b> 太字 </b>"
+
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## 次のステップ
+
+<CardGrid stagger>
+	<Card title="コンテンツを更新" icon="pencil">
+		`src/content/docs/index.mdx`を編集して、このページの変更を確認してください。
+	</Card>
+	<Card title="ページレイアウトを変更" icon="document">
+		`src/content/docs/index.mdx`の`template: splash`を削除すると、
+		このページにサイドバーが表示されます。
+	</Card>
+	<Card title="新しいコンテンツを追加" icon="add-document">
+		`src/content/docs`にMarkdownまたはMDXファイルを追加して、新しいページを作成します。
+	</Card>
+	<Card title="サイトを設定" icon="setting">
+		`astro.config.mjs`で`sidebar`やその他の設定を編集します。
+	</Card>
+	<Card title="ドキュメントを読む" icon="open-book">
+		詳細は[Starlightドキュメント](https://starlight.astro.build/)をご覧ください。
+	</Card>
+</CardGrid>

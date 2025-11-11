@@ -1,0 +1,38 @@
+{
+  "name": "",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.4.2",
+    "@astrojs/starlight": "^0.36.2",
+    "@astrojs/starlight-tailwind": "^4.0.2",
+    "@astropub/worker": "^0.2.0",
+    "@supabase/supabase-js": "^2.80.0",
+    "@tailwindcss/postcss": "^4.1.17",
+    "@tailwindcss/vite": "^4.1.17",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "astro": "^5.6.1",
+    "clsx": "^2.1.1",
+    "cssnano": "^7.1.2",
+    "dexie": "^4.2.1",
+    "lucide-react": "^0.553.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.66.0",
+    "react-unity-webgl": "^10.1.6",
+    "sharp": "^0.34.2",
+    "starlight-theme-galaxy": "^0.5.2",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.1.17"
+  }
+}

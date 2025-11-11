@@ -1,0 +1,73 @@
+---
+title: |
+  Juega a Bug Wars
+description: |
+  Experimenta Bug Wars en tu navegador con Unity WebGL
+template: splash
+hero:
+  tagline: Sobrevive al enjambre. Demuestra tu valía.
+  image:
+    file: ../../../assets/BugWars.webp
+  rawHtml: "<div id='unity-container' style='width: 100%; max-width: 960px; margin: 0 auto;'><div id='unity-canvas-container'></div></div>"
+
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Juega a Bug Wars en tu Navegador
+
+Prepárate para enfrentar el desafío definitivo de supervivencia. Bug Wars se ejecuta directamente en tu navegador usando tecnología Unity WebGL - no se requiere instalación.
+
+{/* Unity WebGL container will be injected here when the build is ready */}
+<div id="unity-game-wrapper" style="margin: 2rem 0;">
+  <div id="unity-loading-placeholder" style="text-align: center; padding: 4rem 2rem; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%); border-radius: 12px; border: 2px dashed rgba(99, 102, 241, 0.3);">
+    <h3 style="margin-bottom: 1rem; color: #6366f1;">Compilación Unity WebGL Próximamente</h3>
+    <p style="color: #94a3b8; max-width: 600px; margin: 0 auto;">
+      El juego está actualmente en desarrollo. Una vez que la compilación Unity WebGL esté lista, se incrustará aquí para jugar instantáneamente en el navegador.
+    </p>
+    <p style="margin-top: 1.5rem; font-size: 0.875rem; color: #64748b;">
+      Características esperadas: Gráficos 3D completos, controles responsivos, combate basado en oleadas y diseño de sonido inmersivo.
+    </p>
+  </div>
+</div>
+
+## Controles del Juego
+
+<CardGrid stagger>
+  <Card title="Movimiento" icon="right-arrow">
+    Usa WASD o las Flechas para navegar por el campo de batalla y esquivar ataques enemigos.
+  </Card>
+  <Card title="Combate" icon="rocket">
+    Clic Izquierdo o Espacio para atacar. Sincroniza tus golpes cuidadosamente para maximizar el daño.
+  </Card>
+  <Card title="Habilidades Especiales" icon="star">
+    Presiona E o Clic Derecho para activar habilidades especiales cuando estén disponibles.
+  </Card>
+  <Card title="Menú de Pausa" icon="setting">
+    Presiona ESC para pausar el juego y acceder a configuraciones o volver al menú principal.
+  </Card>
+</CardGrid>
+
+## Consejos del Juego
+
+<CardGrid stagger>
+  <Card title="Mantente en Movimiento" icon="rocket">
+    El movimiento constante es clave para sobrevivir. Quedarse quieto te convierte en un blanco fácil para los enjambres.
+  </Card>
+  <Card title="Prioriza Amenazas" icon="warning">
+    Concéntrate primero en los enemigos más peligrosos. Algunos insectos infligen más daño o se mueven más rápido que otros.
+  </Card>
+  <Card title="Administra Recursos" icon="star">
+    Usa las habilidades especiales sabiamente. Guárdalas para situaciones abrumadoras o encuentros difíciles con jefes.
+  </Card>
+  <Card title="Aprende Patrones" icon="open-book">
+    Cada oleada tiene patrones predecibles. Estudia el comportamiento enemigo para anticipar ataques.
+  </Card>
+</CardGrid>
+
+---
+
+<div style="text-align: center; margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%); border-radius: 12px;">
+  <h3 style="margin-bottom: 0.5rem;">¿Listo para Luchar?</h3>
+  <p style="color: #94a3b8;">Los insectos están esperando. Muéstrales de qué estás hecho.</p>
+</div>

@@ -1,0 +1,73 @@
+---
+title: |
+  Bug Warsをプレイ
+description: |
+  Unity WebGLでブラウザ上でBug Warsを体験
+template: splash
+hero:
+  tagline: 群れから生き残れ。その価値を証明せよ。
+  image:
+    file: ../../../assets/BugWars.webp
+  rawHtml: "<div id='unity-container' style='width: 100%; max-width: 960px; margin: 0 auto;'><div id='unity-canvas-container'></div></div>"
+
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## ブラウザでBug Warsをプレイ
+
+究極のサバイバルチャレンジに立ち向かう準備をしましょう。Bug WarsはUnity WebGL技術を使用してブラウザで直接動作します - インストール不要です。
+
+{/* Unity WebGL container will be injected here when the build is ready */}
+<div id="unity-game-wrapper" style="margin: 2rem 0;">
+  <div id="unity-loading-placeholder" style="text-align: center; padding: 4rem 2rem; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%); border-radius: 12px; border: 2px dashed rgba(99, 102, 241, 0.3);">
+    <h3 style="margin-bottom: 1rem; color: #6366f1;">Unity WebGLビルド近日公開</h3>
+    <p style="color: #94a3b8; max-width: 600px; margin: 0 auto;">
+      ゲームは現在開発中です。Unity WebGLビルドの準備ができたら、ここに埋め込まれ、ブラウザベースのゲームプレイが可能になります。
+    </p>
+    <p style="margin-top: 1.5rem; font-size: 0.875rem; color: #64748b;">
+      予定機能: フル3Dグラフィックス、レスポンシブコントロール、ウェーブベースの戦闘、没入型サウンドデザイン。
+    </p>
+  </div>
+</div>
+
+## ゲームコントロール
+
+<CardGrid stagger>
+  <Card title="移動" icon="right-arrow">
+    WASDまたは矢印キーを使用して戦場を移動し、敵の攻撃を回避します。
+  </Card>
+  <Card title="戦闘" icon="rocket">
+    左クリックまたはスペースで攻撃。タイミングを計って攻撃し、ダメージを最大化しましょう。
+  </Card>
+  <Card title="特殊能力" icon="star">
+    EキーまたはRight Clickで利用可能な特殊能力を発動します。
+  </Card>
+  <Card title="ポーズメニュー" icon="setting">
+    ESCキーを押してゲームを一時停止し、設定にアクセスするか、メインメニューに戻ります。
+  </Card>
+</CardGrid>
+
+## ゲームのヒント
+
+<CardGrid stagger>
+  <Card title="動き続ける" icon="rocket">
+    常に動き続けることが生存の鍵です。じっとしていると、群れの格好の標的になります。
+  </Card>
+  <Card title="脅威の優先順位" icon="warning">
+    最も危険な敵から倒しましょう。一部のバグは他のバグよりも多くのダメージを与えたり、速く動いたりします。
+  </Card>
+  <Card title="リソース管理" icon="star">
+    特殊能力は賢く使いましょう。圧倒的な状況や難しいボス戦のために温存しておきましょう。
+  </Card>
+  <Card title="パターンを学ぶ" icon="open-book">
+    各ウェーブには予測可能なパターンがあります。敵の行動を研究して攻撃を予測しましょう。
+  </Card>
+</CardGrid>
+
+---
+
+<div style="text-align: center; margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%); border-radius: 12px;">
+  <h3 style="margin-bottom: 0.5rem;">戦う準備はできましたか？</h3>
+  <p style="color: #94a3b8;">バグたちが待っています。あなたの実力を見せつけましょう。</p>
+</div>

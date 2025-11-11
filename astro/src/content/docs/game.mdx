@@ -1,0 +1,132 @@
+---
+title: |
+  Play BugWars
+description: |
+  Experience BugWars in your browser with Unity WebGL
+template: splash
+hero:
+  tagline: Survive the swarm. Prove your worth.
+  image:
+    file: ../../assets/BugWars.webp
+  rawHtml: "<div id='unity-container' style='width: 100%; max-width: 960px; margin: 0 auto;'><div id='unity-canvas-container'></div></div>"
+
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Play BugWars in Your Browser
+
+Get ready to face the ultimate survival challenge. BugWars runs directly in your browser using Unity WebGL technology - no installation required.
+
+{/* Unity WebGL container will be injected here when the build is ready */}
+<div id="unity-game-wrapper" style="margin: 2rem 0;">
+	<div id="unity-loading-placeholder" style="text-align: center; padding: 4rem 2rem; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%); border-radius: 12px; border: 2px dashed rgba(99, 102, 241, 0.3);">
+		<h3 style="margin-bottom: 1rem; color: #6366f1;">Unity WebGL Build Coming Soon</h3>
+		<p style="color: #94a3b8; max-width: 600px; margin: 0 auto;">
+			The game is currently in development. Once the Unity WebGL build is ready, it will be embedded here for instant browser-based gameplay.
+		</p>
+		<p style="margin-top: 1.5rem; font-size: 0.875rem; color: #64748b;">
+			Expected features: Full 3D graphics, responsive controls, wave-based combat, and immersive sound design.
+		</p>
+	</div>
+</div>
+
+{/*
+  Unity WebGL Integration Notes for Future Implementation:
+
+  1. Add Unity Loader Script:
+     <script src="/Build/UnityLoader.js"></script>
+
+  2. Initialize Unity Instance:
+     var unityInstance = UnityLoader.instantiate("unity-canvas-container", "/Build/BugWars.json", {
+       onProgress: UnityProgress
+     });
+
+  3. Required Build Files (to be placed in public/Build/):
+     - BugWars.json (build configuration)
+     - BugWars.data (game data)
+     - BugWars.wasm (WebAssembly binary)
+     - BugWars.framework.js (Unity framework)
+     - BugWars.loader.js (Unity loader)
+
+  4. react-unity-webgl integration (alternative):
+     import { Unity, useUnityContext } from "react-unity-webgl";
+
+  5. Responsive Canvas Styling:
+     - Set canvas width/height based on viewport
+     - Handle fullscreen toggle
+     - Optimize for mobile devices
+*/}
+
+## Game Controls
+
+<CardGrid stagger>
+	<Card title="Movement" icon="right-arrow">
+		Use WASD or Arrow Keys to navigate the battlefield and dodge enemy attacks.
+	</Card>
+	<Card title="Combat" icon="rocket">
+		Left Click or Space to attack. Time your strikes carefully to maximize damage.
+	</Card>
+	<Card title="Special Abilities" icon="star">
+		Press E or Right Click to activate special abilities when available.
+	</Card>
+	<Card title="Pause Menu" icon="setting">
+		Press ESC to pause the game and access settings or return to the main menu.
+	</Card>
+</CardGrid>
+
+## Game Tips
+
+<CardGrid stagger>
+	<Card title="Stay Mobile" icon="rocket">
+		Constant movement is key to survival. Standing still makes you an easy target for swarms.
+	</Card>
+	<Card title="Prioritize Threats" icon="warning">
+		Focus on the most dangerous enemies first. Some bugs deal more damage or move faster than others.
+	</Card>
+	<Card title="Manage Resources" icon="star">
+		Use special abilities wisely. Save them for overwhelming situations or tough boss encounters.
+	</Card>
+	<Card title="Learn Patterns" icon="open-book">
+		Each wave has predictable patterns. Study enemy behavior to anticipate attacks.
+	</Card>
+</CardGrid>
+
+## System Requirements
+
+<div style="margin: 2rem 0; padding: 1.5rem; background: rgba(99, 102, 241, 0.05); border-radius: 8px; border-left: 4px solid #6366f1;">
+
+### Recommended Specifications
+
+- **Browser**: Latest version of Chrome, Firefox, Edge, or Safari
+- **WebGL**: WebGL 2.0 support required
+- **RAM**: 4GB or more recommended
+- **Internet**: Stable broadband connection for initial load
+- **Display**: 1280x720 resolution or higher
+
+### Performance Notes
+
+For the best experience, close unnecessary browser tabs and ensure hardware acceleration is enabled in your browser settings.
+
+</div>
+
+## Community & Support
+
+<CardGrid stagger>
+	<Card title="Report Issues" icon="warning">
+		Found a bug? Report it on our GitHub issues page to help improve the game.
+	</Card>
+	<Card title="Share Strategies" icon="comment">
+		Join the community to share your best survival strategies and high scores.
+	</Card>
+	<Card title="Stay Updated" icon="information">
+		Follow development progress and get notified when new features and updates are released.
+	</Card>
+</CardGrid>
+
+---
+
+<div style="text-align: center; margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%); border-radius: 12px;">
+	<h3 style="margin-bottom: 0.5rem;">Ready to Fight?</h3>
+	<p style="color: #94a3b8;">The bugs are waiting. Show them what you're made of.</p>
+</div>

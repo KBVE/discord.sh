@@ -1,0 +1,1324 @@
+---
+title: Bug Wars - Game Design Document
+description: Comprehensive technical documentation for the Bug Wars Unity game project
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+# Bug Wars - Game Design Document
+
+## Game Overview
+
+**Bug Wars** is a survival action game built in Unity where players face off against relentless waves of insects and creatures from the natural world. The game features intense combat mechanics, strategic resource management, and progressive difficulty scaling. Players must adapt to different bug types, each with unique behaviors and attack patterns, while managing limited resources and upgrading their defensive capabilities.
+
+The game is built using modern Unity development practices, leveraging powerful architectural patterns through dependency injection (VContainer) and asynchronous programming (UniTask). The core architecture emphasizes modularity, testability, and clean separation of concerns, making the codebase maintainable and scalable as new features are added.
+
+## Core Technologies
+
+### VContainer - Dependency Injection Framework
+
+[VContainer GitHub Repository](https://github.com/hadashiA/VContainer)
+
+VContainer is the fastest and most lightweight dependency injection (DI) framework for Unity, providing a robust foundation for managing object lifecycles and dependencies throughout Bug Wars. Unlike traditional Unity development where components find each other using `FindObjectOfType` or singleton patterns, VContainer enables proper inversion of control (IoC) where dependencies are explicitly declared and automatically injected.
+
+In Bug Wars, VContainer serves as the backbone of our architecture through the `GameLifetimeScope` class, which orchestrates all core managers (GameManager, EventManager, InputManager, etc.). This approach eliminates tight coupling between systems, makes testing easier through dependency mocking, and provides clear visibility into system dependencies. VContainer's constructor and method injection automatically resolves dependencies when components are created, ensuring that all required references are available before a component begins its work.
+
+The framework's performance characteristics are crucial for games - VContainer generates optimal IL code at build time, resulting in zero reflection overhead at runtime. This makes it ideal for performance-critical game environments where every frame counts. Our implementation uses VContainer's `LifetimeScope` to manage singleton managers that persist across scenes, while still maintaining the flexibility to add scoped dependencies for level-specific systems.
+
+### UniTask - High-Performance Async/Await
+
+[UniTask GitHub Repository](https://github.com/Cysharp/UniTask)
+
+UniTask is a zero-allocation async/await framework specifically designed for Unity, replacing Unity's older Coroutine system with modern C# async/await patterns. Unlike standard .NET Tasks which allocate garbage on every operation, UniTask is a value-type based implementation that provides true zero-allocation asynchronous programming, making it perfect for game development where garbage collection pauses can cause frame drops.
+
+In Bug Wars, UniTask powers all asynchronous operations including scene loading, resource streaming, and complex animation sequences. The `GameManager` uses UniTask extensively for scene management, providing clean async/await syntax instead of callback-based coroutines. This makes our code more readable and maintainable - for example, loading a scene with progress tracking becomes a straightforward async method rather than a complex IEnumerator with nested callbacks. UniTask also integrates seamlessly with Unity's lifecycle, providing PlayerLoop-based task scheduling that respects Unity's frame timing.
+
+The performance benefits of UniTask are substantial - it avoids the heap allocations associated with coroutines and standard Tasks, operates faster than Unity's coroutine system, and provides better debugging support through proper stack traces. UniTask also includes powerful operators for working with Unity's async operations, time-based delays, and cancellation tokens, giving us fine-grained control over asynchronous workflows. This is particularly important for Bug Wars' gameplay systems where we need responsive, non-blocking operations for enemy spawning, animation blending, and networked events.
+
+### Cinemachine - Procedural Camera System
+
+[Cinemachine Documentation](https://docs.unity3d.com/Packages/com.unity.cinemachine@latest)
+
+Cinemachine is Unity's powerful procedural camera system that enables AAA-quality camera behaviors without complex manual scripting. Instead of writing custom camera controllers with follow logic, damping, and collision detection, Cinemachine provides a component-based approach where cameras are assembled from modular building blocks called Virtual Cameras. This shifts camera work from programming to design, allowing rapid iteration on camera feel and behavior.
+
+In Bug Wars, Cinemachine serves as the foundation for all camera systems, providing dynamic camera control that responds to gameplay situations. The framework's Virtual Camera concept allows us to define multiple camera perspectives (combat camera, boss fight camera, death camera) and seamlessly blend between them based on game state. Each Virtual Camera can have its own priority, follow target, look-at target, and behavioral components, making it trivial to create context-sensitive camera work that enhances the player experience.
+
+#### Key Features for Bug Wars:
+
+- **Dynamic Follow & Framing**: Cinemachine's Body components (Transposer, Framing Transposer, Orbital Transposer) provide sophisticated player-following logic with customizable damping, dead zones, and screen composition rules. This ensures the player character stays optimally framed even during intense combat sequences.
+
+- **Smart Aim Handling**: The Aim components manage where the camera looks, supporting hard look-at, composer-based framing, POV rotation, and more. For Bug Wars' combat scenarios, this allows the camera to intelligently frame both the player and approaching enemy threats.
+
+- **Procedural Noise & Shake**: The CinemachineBasicMultiChannelPerlin component enables realistic camera shake for impacts, explosions, and damage feedback. Unlike manual shake implementations, Cinemachine's procedural noise is based on Perlin noise profiles, providing organic, non-repetitive camera movement that can be tuned with frequency and amplitude curves.
+
+- **Collision Detection**: Cinemachine's Collider extension automatically handles camera collision with environment geometry, preventing the camera from clipping through walls or obstacles. This is crucial for Bug Wars' varied combat arenas where maintaining visibility is essential.
+
+- **State-Driven Cameras**: Integration with Unity's Timeline and animation system allows camera cuts and blends to be choreographed alongside gameplay events. Boss introductions, player death sequences, and victory celebrations can all leverage cinematic camera work.
+
+- **Input-Responsive Systems**: Cinemachine's input axes support player-controlled camera rotation, zoom, and positioning, enabling features like manual camera control during strategic moments or targeting specific enemies.
+
+#### Performance & Architecture Benefits:
+
+Cinemachine is designed for zero-garbage-collection camera updates, running all calculations on the same frame timeline as Unity's camera system. The framework uses a priority-based blending system where multiple Virtual Cameras can coexist, with the highest-priority camera taking control. Transitions between cameras use sophisticated blending algorithms that can interpolate position, rotation, and lens properties over time, creating smooth cinematic transitions without writing custom interpolation code.
+
+For Bug Wars' architecture, Cinemachine integrates seamlessly with our existing VContainer and UniTask infrastructure. Virtual Cameras can be activated/deactivated in response to EventManager triggers (player death, boss spawn, wave completion), and camera transitions can be awaited using UniTask for precise sequencing. The component-based design also supports dependency injection - custom Cinemachine extensions can receive injected dependencies for accessing game state when making camera decisions.
+
+The separation between Virtual Cameras (what you want to shoot) and the Brain (how to execute the shot) provides excellent testability and designer iteration. Camera behaviors can be tuned in the editor without code changes, and multiple camera setups can be A/B tested simply by adjusting priorities. This design philosophy aligns perfectly with Bug Wars' emphasis on clean architecture and rapid iteration.
+
+## AI-Assisted Development with MCP
+
+Bug Wars embraces modern AI-assisted development workflows through the Model Context Protocol (MCP), enabling seamless collaboration between human developers and AI assistants directly within the Unity environment. MCP provides a standardized interface for AI tools to interact with development environments, allowing for intelligent code suggestions, automated refactoring, asset management, and context-aware assistance throughout the development process.
+
+By integrating MCP into our development workflow, we accelerate iteration speed, reduce repetitive tasks, and enable developers to focus on creative problem-solving and game design rather than boilerplate code generation. AI assistants can understand the project's architecture, suggest improvements aligned with our coding standards, and help maintain consistency across the codebase. This is particularly valuable for Bug Wars' complex systems involving VContainer dependency graphs, UniTask async patterns, and Cinemachine configurations.
+
+### Unity MCP - AI Bridge for Unity Editor
+
+[Unity MCP GitHub Repository](https://github.com/CoplayDev/unity-mcp)
+
+Unity MCP is an open-source bridge that connects AI assistants (such as Claude, Cursor, and other LLM-powered tools) directly to the Unity Editor through the Model Context Protocol. This integration enables natural language control of Unity projects, allowing developers to leverage AI for automating workflows, managing assets, and accelerating game development tasks that would traditionally require manual editor interactions.
+
+#### Architecture & Components:
+
+Unity MCP consists of two complementary components that work together:
+
+- **Unity Package**: Installed directly into your Unity project via Package Manager, this component exposes Unity Editor APIs and provides hooks into the project's scene hierarchy, asset database, and editor state.
+- **Python Server**: A local server that runs alongside your development environment, facilitating bidirectional communication between your AI client and the Unity Editor. The server translates natural language commands into Unity API calls and returns structured responses.
+
+#### Key Capabilities for Bug Wars Development:
+
+**Asset Management**
+- Import, create, modify, and delete project resources through AI commands
+- Organize prefabs, scripts, textures, and audio files based on natural language instructions
+- Automate batch asset operations (renaming conventions, folder restructuring, metadata tagging)
+
+**Scene Manipulation**
+- Load, save, and modify scene hierarchies conversationally
+- Create and configure GameObjects with specific components and settings
+- Adjust scene lighting, camera positions, and environment properties without manual editor navigation
+
+**Script Creation & Editing**
+- Generate C# scripts with proper namespace conventions and dependency patterns
+- Modify existing code with AI-suggested improvements and refactoring
+- Validate script syntax and integration with Unity's component system
+
+**Workflow Automation**
+- Execute repetitive Unity Editor tasks through natural language commands
+- Automate testing sequences, build configurations, and deployment steps
+- Query editor state to understand current selections, active windows, and project settings
+
+#### Integration with Bug Wars Workflow:
+
+Unity MCP enhances Bug Wars development by enabling AI assistants to:
+
+- **Understand Architecture Context**: AI can analyze the VContainer dependency graphs and suggest proper injection patterns for new managers and controllers
+- **Generate Cinemachine Configurations**: Describe desired camera behaviors in natural language and have the AI configure Virtual Camera components with appropriate settings
+- **Create Event-Driven Code**: AI understands the EventManager pattern and can generate new events with proper trigger methods and listener subscriptions
+- **Validate Unity Best Practices**: AI can review code for Unity-specific anti-patterns (improper lifecycle usage, expensive operations in Update loops, missing null checks) and suggest corrections
+
+#### Setup Requirements:
+
+For developers joining the Bug Wars project, Unity MCP setup involves:
+
+1. Install the Unity package via Package Manager (Git URL or local package)
+2. Configure the Python server with your AI client credentials
+3. Ensure Python 3.8+ is installed with required dependencies
+4. Launch the server alongside Unity Editor for active AI assistance
+
+The system supports multiple simultaneous Unity instances and integrates seamlessly with popular AI coding clients, requiring minimal configuration beyond initial setup. For Bug Wars contributors, Unity MCP accelerates onboarding by allowing new developers to query the AI about architecture decisions, quickly generate boilerplate code following project conventions, and receive context-aware assistance when implementing new gameplay systems.
+
+### Context7 - Up-to-Date Documentation for LLMs
+
+[Context7 Unity Documentation](https://context7.com?q=unity)
+
+Context7 is an open-source Model Context Protocol (MCP) server that provides AI assistants with up-to-date, version-specific documentation and code examples directly from the source. Unlike static documentation or LLM training data that may be outdated, Context7 dynamically retrieves the latest official documentation, ensuring AI-generated code and suggestions align with current best practices and API specifications.
+
+#### What Context7 Provides:
+
+Context7 acts as a real-time documentation bridge between AI assistants and official framework documentation. When an AI needs to reference Unity APIs, component behaviors, or implementation patterns, Context7 fetches the most recent documentation from Unity's official sources and injects it directly into the AI's context. This ensures that code suggestions, API usage examples, and architectural recommendations reflect the latest Unity version being used in the project.
+
+#### Key Benefits for Bug Wars Development:
+
+**Version-Specific Accuracy**
+- Ensures AI suggestions match the exact Unity version used by Bug Wars (avoiding deprecated APIs or unavailable features)
+- Provides accurate documentation for VContainer, UniTask, Cinemachine, and other third-party packages
+- Reduces errors caused by outdated LLM training data or generic code examples
+
+**Enhanced Code Generation**
+- AI assistants can generate Unity scripts with current API signatures and recommended patterns
+- Code examples pulled from official docs ensure compliance with Unity's latest coding standards
+- Reduces manual documentation lookup, allowing developers to stay in flow state
+
+**Contextual API Understanding**
+- When working with complex Unity systems (physics, rendering, UI Toolkit), AI has access to detailed parameter descriptions and usage notes
+- Enables AI to suggest proper component configurations and editor settings
+- Helps AI understand nuances of Unity's component lifecycle and execution order
+
+**Integration with Existing Tools**
+- Works seamlessly with Cursor, Claude, and other AI coding assistants
+- Can be combined with Unity MCP for comprehensive AI-assisted Unity development
+- Requires minimal setup - typically just installing the MCP server and configuring your AI client
+
+#### Use Cases in Bug Wars Workflow:
+
+For Bug Wars contributors, Context7 enhances AI assistance in several ways:
+
+- **Learning New Systems**: When implementing new Unity features (e.g., Timeline, Shader Graph), AI can reference the latest documentation to guide developers through setup
+- **API Migration**: If Unity versions are updated, Context7 ensures AI suggestions reflect migration paths and new API patterns
+- **Third-Party Package Support**: Context7 can retrieve documentation for VContainer, UniTask, and Cinemachine, helping AI understand our core technology stack
+- **Debugging Assistance**: AI can reference official docs when troubleshooting Unity-specific issues, providing more accurate diagnostic suggestions
+- **Code Review**: AI reviewers can validate that code follows current Unity best practices and uses APIs correctly
+
+#### Setup for Bug Wars Contributors:
+
+1. Install Context7 MCP server from the [official repository](https://github.com/upstash/context7)
+2. Configure your AI client (Claude Desktop, Cursor, etc.) to use the Context7 MCP server
+3. Query Unity-specific documentation using the Unity parameter: `https://context7.com?q=unity`
+4. Combine with Unity MCP for a complete AI-assisted development environment
+
+Context7 significantly reduces the friction of working with Unity's extensive API surface, allowing both experienced developers and new contributors to leverage accurate, up-to-date documentation without leaving their development environment.
+
+---
+
+## Core Architecture
+
+### GameLifetimeScope
+
+**Location:** `Assets/Scripts/Core/GameLifetimeScope.cs`
+
+The `GameLifetimeScope` is the central orchestrator for Bug Wars' dependency injection container, extending VContainer's `LifetimeScope` base class. This class is responsible for bootstrapping the entire game architecture by registering all core managers in their correct dependency order and ensuring they persist across scene transitions.
+
+#### Key Responsibilities:
+
+- **Dependency Registration**: Manages the registration of all singleton managers with the VContainer container, including:
+  - **Core Systems**: EventManager, InputManager, GameManager
+  - **UI Systems**: MainMenuManager
+  - **Rendering Systems**: CameraManager (Cinemachine integration)
+  - **World Systems**: TerrainManager (procedural generation)
+  - **Gameplay Systems**: EntityManager (entity tracking and queries)
+- **Initialization Order**: Ensures components are registered in proper dependency order:
+  1. **EventManager** (no dependencies) - foundational event system
+  2. **InputManager** (depends on EventManager) - input event translation
+  3. **MainMenuManager** (depends on EventManager) - UI system
+  4. **CameraManager** (no dependencies) - camera control and frustum culling
+  5. **TerrainManager** (depends on CameraManager) - terrain generation with culling
+  6. **EntityManager** (no dependencies) - entity registry
+  7. **GameManager** (depends on all above) - high-level game coordination
+- **Singleton Pattern Enforcement**: Implements singleton pattern with DontDestroyOnLoad, ensuring only one GameLifetimeScope exists across scene transitions
+- **Auto-Manager Creation**: Intelligently creates missing managers at runtime if not assigned in Inspector, supporting both editor-based and code-driven workflows
+- **UI Configuration**: Handles the creation and configuration of UIDocument-based interfaces, including PanelSettings and VisualTreeAssets for the main menu system
+- **Runtime PanelSettings**: Intelligently creates default PanelSettings at runtime if none are assigned, ensuring UI rendering works correctly even without manual configuration
+- **Lifecycle Management**: Marks core managers with `DontDestroyOnLoad()` to persist across scene transitions, maintaining game state throughout the player's session
+
+**Async Initialization:**
+
+The GameLifetimeScope supports async manager initialization through VContainer's `IStartable` interface. TerrainManager, for example, implements async initialization to generate the initial terrain chunks without blocking the main thread, ensuring smooth game startup.
+
+The `RegisterOrCreateManager<T>()` helper method demonstrates a smart pattern: it first checks if a manager already exists in the scene (useful during editor testing) and registers it if found, otherwise creates a new instance. This flexibility supports both runtime initialization and editor-based scene setup workflows.
+
+---
+
+### GameManager
+
+**Location:** `Assets/Scripts/Core/GameManager.cs`
+
+The `GameManager` serves as the universal game state controller, coordinating high-level game functionality including scene management, pause/resume mechanics, and integration with the main menu system. It acts as a facade for common game operations, providing a clean API for other systems to interact with.
+
+#### Key Features:
+
+- **Scene Management**: Provides async/await-based scene loading and unloading through UniTask, with proper event notifications for scene transitions. Supports both single and additive scene loading modes
+- **Pause System**: Implements pause/resume functionality through Unity's `Time.timeScale` with corresponding event triggers for UI updates
+- **Camera Caching**: Maintains a cached reference to the main camera, avoiding repeated expensive `Camera.main` calls that use `FindGameObjectWithTag` internally
+- **Event Integration**: Exposes the EventManager instance and subscribes to relevant input events (Escape, Pause) to trigger appropriate game state changes
+- **Main Menu Control**: Delegates main menu visibility to MainMenuManager while coordinating with the event system to notify listeners of menu state changes
+- **Current Scene Tracking**: Maintains references to the active scene including name and build index for easy access by other systems
+
+The GameManager demonstrates proper dependency injection patterns - it receives EventManager and MainMenuManager through constructor injection, explicitly declaring its dependencies. It also properly manages the lifecycle of event subscriptions, subscribing in `Start()` and unsubscribing in `OnDestroy()` to prevent memory leaks.
+
+---
+
+### EventManager
+
+**Location:** `Assets/Scripts/Core/EventManager.cs`
+
+The `EventManager` implements a centralized event system using Unity's `UnityEvent` framework, enabling decoupled communication between game systems. Rather than having systems directly reference each other, they communicate through events, making the architecture more modular and testable.
+
+#### Event Categories:
+
+**Input Events:**
+- `OnEscapePressed`: Triggered when the Escape key is pressed
+- `OnPausePressed`: Triggered when the Pause key is pressed
+
+**Game State Events:**
+- `OnGamePaused`: Fired when the game enters paused state
+- `OnGameResumed`: Fired when the game exits paused state
+
+**Scene Events:**
+- `OnSceneLoadStarted`: Notifies listeners when a scene begins loading (includes scene name)
+- `OnSceneLoadCompleted`: Notifies listeners when a scene finishes loading
+
+**Player Events:**
+- `OnPlayerHealthChanged`: Broadcasts player health updates (prepared for future implementation)
+- `OnPlayerDied`: Signals player death event
+
+**UI Events:**
+- `OnMainMenuOpened`: Indicates main menu has been displayed
+- `OnMainMenuClosed`: Indicates main menu has been hidden
+
+#### Design Benefits:
+
+The EventManager provides trigger helper methods (e.g., `TriggerEscapePressed()`, `TriggerGamePaused()`) that encapsulate event invocation, making it easy to fire events from anywhere in the codebase. This pattern ensures null-safety through the null-conditional operator (`?.Invoke()`) and provides a single source of truth for all game events. The debug helper `LogActiveListeners()` aids in troubleshooting by reporting listener counts for registered events.
+
+---
+
+### InputManager
+
+**Location:** `Assets/Scripts/Core/InputManager.cs`
+
+The `InputManager` handles all global system-level input using Unity's new Input System package, translating raw keyboard input into high-level events through the EventManager. It focuses exclusively on global inputs (Escape, Pause, system hotkeys) while leaving game-specific inputs (player movement, combat) to dedicated controller classes.
+
+#### Core Functionality:
+
+- **Global Input Polling**: Monitors keyboard input every frame for system-level keys (Escape, Pause, potential settings/debug keys)
+- **Event Translation**: Converts raw input into semantic events by triggering corresponding EventManager methods
+- **Null-Safety**: Includes proper null checks for keyboard availability, ensuring compatibility with different input configurations
+- **Debug Mode**: Provides optional debug logging to trace input events for troubleshooting
+- **Utility Methods**: Exposes `IsKeyPressed()` and `IsKeyPressedThisFrame()` helpers for other scripts that need to query input state
+
+#### Architecture Justification:
+
+By separating global inputs from gameplay inputs, the architecture remains clean and focused. The InputManager doesn't need to know about player controllers, enemy AI, or game mechanics - it simply reports when system keys are pressed. This separation of concerns makes the codebase easier to understand and modify. Game-specific input handling can be implemented in player controller classes or action map systems without cluttering this core system.
+
+---
+
+### MainMenuManager
+
+**Location:** `Assets/BugWars/UI/MainMenu/MainMenuManager.cs`
+
+The `MainMenuManager` controls the main menu user interface using Unity's UI Toolkit (formerly UIElements), providing a modern, performant UI system built on retained-mode rendering. It manages menu visibility, button interactions, and integration with the game's event system.
+
+#### Key Components:
+
+- **UI Toolkit Integration**: Uses `UIDocument` component with UXML visual trees for declarative UI definition, separating presentation from logic
+- **Element Queries**: Locates UI elements by name using the `Q<T>()` query API (`MainMenuContainer`, `SettingsButton`, `ExitButton`)
+- **Event Handling**: Registers button click callbacks and responds to global events (Escape key) to toggle menu visibility
+- **Visibility Management**: Controls menu display through `DisplayStyle.Flex` and `DisplayStyle.None`, providing instant show/hide functionality
+- **State Tracking**: Maintains `IsMenuVisible` property to allow other systems to query menu state
+
+#### Implementation Details:
+
+The MainMenuManager demonstrates proper component lifecycle management - it waits for VContainer to inject dependencies in `Construct()`, initializes UI elements in `Start()` after the UIDocument is configured, and cleans up event subscriptions in `OnDestroy()`. The `OnExitButtonClicked()` method includes platform-specific quit logic, stopping play mode in the editor and calling `Application.Quit()` in builds.
+
+This component showcases the synergy between VContainer and UI Toolkit - dependencies are injected automatically, while UI elements are queried and configured using UI Toolkit's retained-mode API. The result is clean, testable code that separates concerns between UI presentation and game logic.
+
+---
+
+## Gameplay Systems
+
+### Terrain Generation System
+
+**Location:** `Assets/Scripts/Terrain/`
+
+Bug Wars features a sophisticated procedural terrain generation system built on a chunk-based streaming architecture, providing infinite explorable worlds with optimal performance through intelligent culling and asynchronous loading.
+
+#### TerrainManager
+
+**Location:** `Assets/Scripts/Terrain/TerrainManager.cs`
+
+The `TerrainManager` orchestrates the entire terrain generation pipeline, managing chunk lifecycle from creation through rendering to eventual unloading based on player position and camera visibility.
+
+**Key Features:**
+
+- **Chunk-Based Streaming Architecture**: Generates terrain in discrete chunks (80x80 units each) arranged in a dynamic grid around the player, allowing for theoretically infinite world exploration without performance degradation
+- **Perlin Noise Procedural Generation**: Uses configurable seed values for deterministic terrain generation, ensuring the same seed always produces identical terrain layouts (useful for testing and potential multiplayer synchronization)
+- **Async Loading with UniTask**: All terrain generation operations execute asynchronously on background threads, preventing frame hitches and maintaining smooth 60 FPS gameplay even during chunk generation
+- **Frustum Culling Integration**: Works closely with CameraManager to automatically hide chunks outside the camera's view frustum, dramatically reducing draw calls and improving rendering performance
+- **Dynamic Chunk Distance Management**:
+  - Loads chunks within 2-chunk radius of player position (proactive loading)
+  - Unloads chunks beyond 3-chunk radius (memory management)
+  - Configurable distances for performance tuning on different hardware
+
+**Technical Implementation Details:**
+
+- **Chunk Resolution**: 20 vertices per side, creating a low-poly aesthetic that's both performant and stylistically distinctive
+- **Chunk Size**: 80x80 units (quadrupled from original 20x20 for better performance/detail balance)
+- **Height Multiplier**: 3x default elevation for dramatic terrain variation
+- **Update Frequency**: Configurable culling checks (0.5s default) to balance responsiveness with CPU overhead
+- **Parallel Generation**: Uses `UniTask.WhenAll()` for parallel chunk generation, significantly reducing initial world load time
+
+**Performance Optimizations:**
+
+The TerrainManager implements several critical optimizations:
+- Background thread mesh generation prevents main thread blocking
+- Cached frustum planes enable batch culling operations without per-chunk camera queries
+- Spatial hashing for efficient chunk lookup by world position
+- Deferred mesh application (generation on worker thread, Unity mesh assignment on main thread)
+
+**Integration Points:**
+
+- **VContainer Registration**: Registered as singleton in GameLifetimeScope with `IStartable` interface for automatic initialization
+- **CameraManager Dependency**: Receives CameraManager via constructor injection for frustum culling operations
+- **EventManager Integration**: Can trigger events for terrain generation completion, chunk loading progress
+
+#### TerrainChunk
+
+**Location:** `Assets/Scripts/Terrain/TerrainChunk.cs`
+
+Individual terrain chunk responsible for mesh generation, physics collision, and visibility management.
+
+**Core Functionality:**
+
+- **Procedural Mesh Generation**: Uses 2D Perlin noise to generate natural-looking heightmaps with configurable parameters:
+  - Noise scale for feature size control
+  - Height multiplier for elevation range
+  - Seed offset for deterministic generation
+- **Async Mesh Construction**: Entire mesh generation process (vertex calculation, UV mapping, triangle indexing) runs on ThreadPool threads
+- **Automatic Physics Colliders**: Each chunk includes a `MeshCollider` component for terrain collision detection, enabling gameplay interactions with terrain
+- **Visibility Control**: Implements `Show()`/`Hide()` methods for frustum culling, disabling MeshRenderer without destroying the chunk object
+
+**Mesh Generation Pipeline:**
+
+1. **Vertex Generation**: Calculate vertex positions using Perlin noise sampling offset by world position
+2. **UV Mapping**: Generate texture coordinates for future terrain texturing support
+3. **Triangle Construction**: Build triangle indices following Unity's winding order conventions
+4. **Normal Calculation**: Automatically recalculate normals for proper lighting interaction
+5. **Collider Assignment**: Apply generated mesh to MeshCollider for physics interactions
+
+**Memory Management:**
+
+TerrainChunk implements proper cleanup in `OnDestroy()`, ensuring mesh memory is properly released when chunks are unloaded. This prevents memory leaks during extended gameplay sessions.
+
+---
+
+### Sprite Rendering System
+
+**Location:** `Assets/BugWars/Prefabs/Character/Samurai/`
+
+Bug Wars implements a high-performance 2D sprite rendering system in a 3D environment using a custom URP shader with GPU-based billboarding, mesh-based rendering, and frame-based animation driven by JSON sprite atlases.
+
+#### Architecture Overview
+
+The sprite rendering system replaces Unity's traditional SpriteRenderer component with a MeshRenderer + custom shader approach, providing:
+- **GPU-based billboarding** (no CPU transform updates)
+- **Frame-based animation** via shader UV remapping
+- **MaterialPropertyBlock** for per-instance parameters without material duplication
+- **Zero-garbage animation updates** using cached shader property IDs
+
+This approach is significantly more performant than traditional billboard systems that update transforms in `LateUpdate()`, as all rotation calculations happen on the GPU within the vertex shader.
+
+#### SamuraiAnimatedSprite_Unity6 Shader
+
+**Location:** `Assets/BugWars/Prefabs/Character/Samurai/SamuraiAnimatedSprite_Unity6.shader`
+
+Custom URP-compatible shader implementing GPU-based billboarding with sprite sheet animation support.
+
+**Shader Features:**
+
+- **Billboard Modes**:
+  - `Mode 0`: No billboarding (standard object transform)
+  - `Mode 1`: Cylindrical billboarding (Y-axis locked, ideal for ground-based characters)
+  - `Mode 2`: Spherical billboarding (full camera facing)
+- **Frame Animation**: UV remapping via `_FrameUVMin` and `_FrameUVMax` shader properties for sprite atlas animation
+- **Sprite Flipping**: `_FlipX` and `_FlipY` parameters for directional character facing without mesh regeneration
+- **Transparency**: Alpha cutoff with configurable threshold for sprite edge handling
+- **URP Integration**: Proper fog support, UniversalForward rendering, transparent queue
+
+**Technical Implementation:**
+
+The shader's vertex function calculates billboard rotation by constructing world-space quad positions from camera basis vectors:
+- Cylindrical mode: Projects camera direction onto XZ plane, builds right vector perpendicular to world up
+- Spherical mode: Uses camera's inverse view matrix to extract right/up vectors directly
+- UV coordinates are remapped to frame bounds and optionally flipped based on shader parameters
+
+**Performance Benefits:**
+- Billboard rotation executes entirely on GPU (no CPU `LateUpdate()` overhead)
+- Batching-friendly: multiple characters can share the same material with per-instance property blocks
+- Zero-allocation updates: MaterialPropertyBlock reuse eliminates GC pressure
+
+#### Sprite Atlas System
+
+**Location:** `Assets/BugWars/Prefabs/Character/Samurai/SpriteAtlasData.cs`
+
+JSON-driven sprite atlas format for defining animation frames and sequences.
+
+**Atlas Structure:**
+
+```json
+{
+  "meta": {
+    "version": "1.0",
+    "size": { "w": 1024, "h": 1024 },
+    "frameSize": 128,
+    "frameCount": 60
+  },
+  "frames": {
+    "Idle_0": {
+      "x": 0, "y": 0, "w": 128, "h": 128,
+      "animation": "Idle",
+      "index": 0,
+      "uv": {
+        "min": { "x": 0.0, "y": 0.875 },
+        "max": { "x": 0.125, "y": 1.0 }
+      }
+    }
+  },
+  "animations": {
+    "Idle": {
+      "frames": ["Idle_0", "Idle_1", "Idle_2", "Idle_3"],
+      "frameCount": 4,
+      "fps": 8
+    }
+  }
+}
+```
+
+**Key Components:**
+
+- **Meta**: Atlas metadata (size, frame dimensions, total frame count)
+- **Frames**: Dictionary mapping frame names to UV coordinates, positions, and animation membership
+- **Animations**: Sequences of frame names with playback speed (FPS)
+- **UV Coordinates**: Precomputed normalized UV bounds for direct shader usage
+
+**Data Classes:**
+
+- `SpriteAtlasData`: Root container with Newtonsoft.Json deserialization
+- `FrameData`: Individual frame definition with pixel coordinates and UV bounds
+- `AnimationData`: Frame sequence with FPS and calculated frame duration
+- Uses Newtonsoft.Json for robust dictionary parsing (Unity's JsonUtility doesn't support dictionaries)
+
+#### Samurai Character Implementation
+
+**Location:** `Assets/BugWars/Prefabs/Character/Samurai/Samurai.cs`
+
+The Samurai class demonstrates the sprite rendering system's practical implementation, serving as the player character and reference implementation for future entities.
+
+**Rendering Pipeline:**
+
+1. **Component Replacement**:
+   - At runtime, removes `SpriteRenderer` component (incompatible with custom materials)
+   - Adds `MeshFilter` with procedurally-generated quad mesh (1x1 unit, centered)
+   - Adds `MeshRenderer` with assigned SamuraiMaterial (uses custom shader)
+
+2. **Animation State Mapping**:
+   - Maps universal `EntityAnimationState` enum to Samurai-specific animation names
+   - Example: `EntityAnimationState.Walk` → `"Walk"` animation in SamuraiAtlas.json
+   - Provides consistent interface across different entity types while allowing character-specific animations
+
+3. **Frame-Based Animation**:
+   - Updates current frame index based on elapsed time and animation FPS
+   - Retrieves UV coordinates from atlas for current frame
+   - Updates shader parameters via MaterialPropertyBlock:
+     - `_FrameUVMin`: Frame's minimum UV coordinates
+     - `_FrameUVMax`: Frame's maximum UV coordinates
+   - No mesh regeneration required—shader handles UV remapping
+
+**Quad Mesh Generation:**
+
+```csharp
+// 1x1 unit quad centered at origin with full UV mapping
+Vector3[] vertices = {
+    new Vector3(-0.5f, -0.5f, 0),  // Bottom-left
+    new Vector3( 0.5f, -0.5f, 0),  // Bottom-right
+    new Vector3(-0.5f,  0.5f, 0),  // Top-left
+    new Vector3( 0.5f,  0.5f, 0)   // Top-right
+};
+Vector2[] uvs = { (0,0), (1,0), (0,1), (1,1) };
+```
+
+The shader remaps these 0-1 UV coordinates to the actual frame bounds, allowing a single static mesh to display all animation frames.
+
+**Performance Optimizations:**
+
+- **Cached Shader Property IDs**: `Shader.PropertyToID()` called once in static fields
+- **MaterialPropertyBlock Reuse**: Single property block updated and reused every frame
+- **Billboard Disabled in Entity**: Sets `enableBillboard = false` since shader handles rotation
+- **Async Atlas Loading**: JSON parsing happens during initialization without blocking
+
+**Available Animations:**
+
+The Samurai includes a comprehensive animation set mapped to universal entity states:
+- `Idle`, `Walk`, `Run`, `Jump`
+- `Attack_1`, `Attack_2`, `Attack_3`
+- `Hurt`, `Dead`, `Shield`
+
+Each animation has configurable FPS in the atlas JSON, allowing independent playback speeds for different actions (e.g., fast attack animations, slow idle breathing).
+
+#### Integration with Entity System
+
+The sprite rendering system integrates seamlessly with the Entity base class through several mechanisms:
+
+**MaterialPropertyBlock Sharing:**
+
+The Entity class provides `GetSpritePropertyBlock()` and `ApplySpritePropertyBlock()` helper methods, allowing derived classes like Samurai to extend the property block with additional shader parameters (frame UVs) while preserving Entity's flip state.
+
+**Sprite Flipping:**
+
+Entity's `SetSpriteFlip(bool flipX, bool flipY)` method updates shader parameters that the custom shader reads, enabling camera-relative directional flipping without mesh modifications. The Samurai shader includes `_FlipX` and `_FlipY` parameters that Entity controls based on movement direction.
+
+**Billboard Compatibility:**
+
+While Entity includes CPU-based billboarding via `ApplyBillboard()`, characters using the custom shader disable this (`enableBillboard = false`) since GPU-based billboarding is superior. Entity's billboard system remains for entities using traditional rendering.
+
+**Animation State Abstraction:**
+
+Entity defines a universal `EntityAnimationState` enum with states like `Idle`, `Walk`, `Attack_1`, etc. Derived classes override `OnAnimationStateChanged()` to map these universal states to character-specific animation names in their atlas. This enables polymorphic animation control—calling `entity.SetAnimationState(EntityAnimationState.Walk)` works on any entity type.
+
+---
+
+### Entity System
+
+**Location:** `Assets/Scripts/Entity/`
+
+Bug Wars implements a unified entity system providing a common foundation for all game actors (players, enemies, NPCs) with shared functionality for health, movement, and visual representation.
+
+#### Entity (Base Class)
+
+**Location:** `Assets/Scripts/Entity/Entity.cs`
+
+Abstract base class defining core functionality shared across all game entities.
+
+**Key Features:**
+
+- **Sprite Rendering Support**: Provides infrastructure for 2D sprite rendering in a 3D environment with both CPU-based and GPU-based (shader) billboard systems
+- **Animation State System**: Universal `EntityAnimationState` enum with states mappable to character-specific animations (Idle, Walk, Run, Jump, Attack variants, Hurt, Dead, Shield)
+- **Sprite Flipping**: Camera-relative sprite flipping via MaterialPropertyBlock and shader parameters (`_FlipX`, `_FlipY`)
+- **Health Management**: Built-in health system with `TakeDamage()`, `Heal()`, and `Die()` methods, with virtual methods allowing subclasses to customize behavior
+- **Physics-Based Movement**: Integrates with Unity's Rigidbody system for realistic movement with gravity and collision detection
+- **Auto-Registration**: Entities automatically register themselves with EntityManager on initialization for centralized tracking
+
+**Technical Implementation:**
+
+- **Component Requirements**: Uses `RequireComponent` attributes to ensure Rigidbody and CapsuleCollider are present
+- **Configurable Properties**:
+  - Movement speed and rotation speed for gameplay tuning
+  - Sprite offset for proper visual positioning relative to collision capsule
+  - Max health configuration for difficulty balancing
+  - Billboard mode toggle (enable for CPU-based, disable for shader-based)
+  - Auto-flip sprite based on movement direction
+- **Billboard Orientation**: CPU-based billboard updates in `LateUpdate()` to rotate sprites toward camera after all movement is complete (used for entities without custom shaders)
+- **MaterialPropertyBlock System**: Maintains a shared property block for sprite shader parameters, allowing derived classes to add custom properties (e.g., frame UVs for animation) while preserving base properties (e.g., flip state)
+
+**Animation State System:**
+
+Entities use a two-tier animation system:
+1. **Universal States**: High-level states defined in `EntityAnimationState` enum
+2. **Character-Specific Mappings**: Derived classes override `OnAnimationStateChanged()` to map universal states to their specific animation names
+
+This abstraction allows gameplay code to call `entity.SetAnimationState(EntityAnimationState.Attack_1)` without knowing the entity's specific animation implementation.
+
+**Sprite Flipping System:**
+
+The Entity class provides automatic camera-relative sprite flipping:
+- Movement direction is projected onto the camera's right vector to determine left/right facing
+- `UpdateFacingDirection()` calculates whether the entity is moving left or right relative to the camera
+- `SetSpriteFlip()` updates shader parameters via MaterialPropertyBlock
+- Flipping is GPU-based (no sprite regeneration), working with both SpriteRenderer and custom shaders
+
+**Death Handling:**
+
+The `Die()` virtual method provides a customization point for entity-specific death behaviors:
+- Player death triggers game over sequence
+- Enemy death awards points, spawns pickups
+- Boss death initiates victory sequence
+
+#### EntityManager
+
+**Location:** `Assets/Scripts/Entity/EntityManager.cs`
+
+Centralized registry and query system for all game entities, enabling efficient spatial queries and entity tracking.
+
+**Core Capabilities:**
+
+- **Auto-Discovery**: Automatically finds and registers all Entity instances in the scene during initialization
+- **Spatial Queries**:
+  - `GetEntitiesInRadius(Vector3 pos, float radius)` - Find all entities within circular area
+  - `GetClosestEntity(Vector3 position)` - Find nearest entity to a point
+  - Distance-based queries for AI perception and targeting systems
+- **Type Filtering**: `GetEntitiesOfType<T>()` returns only entities of specific types (e.g., all enemies, all players)
+- **Lifecycle Tracking**: Maintains lists of alive entities, automatically removing dead entities from active queries
+- **Name-Based Lookup**: `GetEntityByName(string name)` for quest systems and scripted encounters
+
+**Use Cases:**
+
+- **AI Target Selection**: Enemies query for nearest player entity
+- **Area of Effect Damage**: Combat systems query for all entities within explosion radius
+- **UI Updates**: Health bars and minimaps query for relevant entities to display
+- **Spawning Logic**: Wave managers check entity counts to determine spawn timing
+
+**Performance Considerations:**
+
+EntityManager caches entity references and uses efficient LINQ queries. For high-frequency spatial queries (hundreds per frame), consider implementing spatial partitioning (quadtree/octree) in future optimization passes.
+
+---
+
+### CameraManager
+
+**Location:** `Assets/Scripts/Core/CameraManager.cs`
+
+The `CameraManager` provides centralized control over all camera systems in Bug Wars, managing Cinemachine Virtual Cameras and providing utility methods for frustum culling and spatial queries.
+
+**Key Responsibilities:**
+
+- **Virtual Camera Management**:
+  - Auto-discovers all CinemachineVirtualCamera instances in the scene
+  - Caches references for fast lookups without repeated `FindObjectsOfType` calls
+  - Provides API for dynamic camera activation/deactivation via priority system
+- **Camera Target Control**:
+  - Get/Set follow targets for dynamic camera tracking
+  - Get/Set look-at targets for aim control
+  - Supports runtime target switching for cinematic sequences
+- **Frustum Culling Utilities**:
+  - `IsPointInFrustum(Vector3 point)` - Check if world position is visible
+  - `IsBoundsInFrustum(Bounds bounds)` - Check if entire bounding box is visible
+  - `GetFrustumPlanes()` - Get current camera frustum planes for batch culling
+  - Used extensively by TerrainManager for chunk visibility determination
+- **Spatial Queries**:
+  - `GetDistanceFromCamera(Vector3 point)` - Calculate distance for LOD systems
+  - Camera position and forward direction accessors for gameplay logic
+
+**Integration with Terrain System:**
+
+The CameraManager's frustum culling methods are critical for terrain performance:
+```csharp
+// TerrainManager uses CameraManager for chunk culling
+var frustumPlanes = cameraManager.GetFrustumPlanes();
+foreach (var chunk in chunks) {
+    bool isVisible = cameraManager.IsBoundsInFrustum(chunk.Bounds);
+    if (isVisible) chunk.Show();
+    else chunk.Hide();
+}
+```
+
+**Cinemachine Integration:**
+
+- **Priority-Based Activation**: Higher priority cameras automatically take control, enabling seamless transitions between gameplay and cinematic cameras
+- **Blend Configuration**: Supports custom blend styles and transition durations
+- **Dynamic Refresh**: `RefreshCameras()` method re-scans scene for newly instantiated virtual cameras
+
+**VContainer Integration:**
+
+Registered as singleton in GameLifetimeScope, allowing any game system to receive CameraManager via dependency injection for camera-aware functionality.
+
+---
+
+### System Integration & Architecture Flow
+
+Bug Wars' systems work together through a well-orchestrated initialization and runtime interaction pattern, leveraging VContainer's dependency injection and EventManager's decoupled communication.
+
+#### Initialization Flow
+
+1. **GameLifetimeScope Startup**:
+   - VContainer container is configured with all manager registrations
+   - Singleton pattern ensures only one instance exists across scenes
+   - DontDestroyOnLoad applied to persist managers through scene transitions
+
+2. **Core System Initialization** (in dependency order):
+   - **EventManager** initializes first with zero dependencies, providing event infrastructure
+   - **InputManager** subscribes to keyboard events and connects to EventManager
+   - **MainMenuManager** configures UI Toolkit elements and event subscriptions
+   - **CameraManager** discovers and caches all Cinemachine Virtual Cameras
+   - **TerrainManager** receives CameraManager dependency and begins async terrain generation
+   - **EntityManager** scans scene for existing entities and registers them
+   - **GameManager** receives all dependencies and coordinates high-level game flow
+
+3. **World Generation**:
+   - TerrainManager generates initial 3x3 chunk grid asynchronously using UniTask
+   - Chunks execute mesh generation on background threads
+   - Mesh application happens on main thread once generation completes
+   - Initial frustum culling pass determines chunk visibility
+
+4. **Game Ready State**:
+   - All managers initialized and ready
+   - Terrain visible and physics colliders active
+   - Entities registered and trackable
+   - Camera system active and responsive
+   - Input system listening for player actions
+
+#### Runtime Interaction Patterns
+
+**Player Movement → Terrain Streaming:**
+- Player entity position changes during gameplay
+- TerrainManager checks player position every frame
+- If player moves beyond chunk distance threshold, trigger chunk loading/unloading
+- New chunks generate asynchronously in background
+- Chunk meshes applied to Unity when generation completes
+
+**Camera Movement → Frustum Culling:**
+- CameraManager tracks main camera transform
+- TerrainManager queries frustum planes periodically (0.5s intervals)
+- Batch culling operation tests all chunk bounds against frustum
+- Visible chunks: `Show()` enables MeshRenderer
+- Hidden chunks: `Hide()` disables MeshRenderer (saves draw calls)
+
+**Input Events → Game State Changes:**
+- InputManager detects Escape key press
+- Triggers `EventManager.TriggerEscapePressed()`
+- GameManager receives event via subscription
+- GameManager calls `MainMenuManager.ToggleMenu()`
+- MainMenuManager updates UI visibility and triggers corresponding event
+
+**Entity Interactions:**
+- Combat system queries EntityManager for enemies in attack range
+- EntityManager returns filtered entity list based on spatial query
+- Entities take damage and update health
+- Dead entities trigger `Die()` method, unregister from EntityManager
+- Death events propagate through EventManager for UI/gameplay updates
+
+**Event-Driven Communication Examples:**
+```csharp
+// System A triggers event
+eventManager.TriggerGamePaused();
+
+// System B responds (previously subscribed)
+void OnGamePaused() {
+    // Pause terrain generation
+    // Stop entity AI updates
+    // Show pause menu
+}
+```
+
+This architecture provides several key benefits:
+- **Decoupling**: Systems don't directly reference each other, only interfaces
+- **Testability**: Dependencies can be mocked for unit testing
+- **Maintainability**: Clear dependency chains make code easier to understand
+- **Performance**: Async operations and culling prevent frame drops
+- **Extensibility**: New systems integrate easily through VContainer registration
+
+---
+
+### Combat Mechanics
+
+**Status:** Currently in development
+
+The combat system will feature:
+- Multiple weapon types with distinct behavior patterns
+- Enemy AI with varying aggression and movement strategies
+- Health and damage systems with visual feedback (base health system implemented in Entity class)
+- Combo mechanics for skilled players
+- Environmental hazards and interactive elements
+
+**Implemented Foundation:**
+- Entity base class provides health, damage, and death functionality
+- EntityManager enables spatial queries for targeting and area-of-effect
+- Billboard sprite system for 2D character rendering in 3D space
+- Physics integration for collision detection and movement
+
+---
+
+### Progression System
+
+**Status:** Planned
+
+Bug Wars will implement a multi-layered progression system:
+- Wave-based difficulty scaling with increasing enemy counts and types
+- Resource collection and upgrade paths
+- Persistent unlocks across play sessions
+- Achievement system tracking player milestones
+- Leaderboard integration for competitive players
+
+**System Dependencies:**
+- Will leverage EventManager for achievement triggers
+- EntityManager for tracking kills and statistics
+- Potential SaveManager integration for persistence
+
+---
+
+### Enemy Design
+
+**Status:** Design phase with technical foundation in place
+
+Each bug type will feature unique characteristics:
+- **Ants**: Swarm mechanics with coordinated group attacks
+- **Spiders**: Web-based area denial and ambush tactics
+- **Wasps**: Aerial assault units with ranged stinger attacks
+- **Beetles**: Heavily armored tanks requiring strategic weak point targeting
+- **Boss Enemies**: Multi-phase encounters with unique mechanics
+
+**Technical Foundation:**
+
+- **Entity Base Class**: All enemies will extend Entity base class for consistent behavior (health, damage, movement)
+- **Sprite Rendering Pipeline**: Enemies will follow the Samurai implementation pattern:
+  - Custom sprite atlas JSON defining animations per enemy type
+  - Shared SamuraiAnimatedSprite_Unity6 shader for consistent rendering
+  - MeshRenderer + quad mesh approach for optimal performance
+  - Per-enemy MaterialPropertyBlock for instance-specific frame UVs
+- **Animation States**: Enemies will map universal EntityAnimationState to enemy-specific animations (e.g., `Attack_1` → `"Bite"` for ants, `"Sting"` for wasps)
+- **GPU Billboarding**: Shader-based billboarding ensures enemies always face camera without CPU overhead
+- **EntityManager Integration**: Spatial awareness for AI decision-making (target acquisition, threat assessment, group behavior)
+- **Physics System**: Ready for enemy collision, movement, and environmental interaction
+
+---
+
+### Camera System (Cinemachine Virtual Cameras)
+
+Bug Wars employs a sophisticated camera system powered by Cinemachine to create dynamic, responsive camera behaviors that enhance gameplay clarity and cinematic presentation. The camera is not just a passive observer but an active participant in the game's feel and player experience.
+
+The CameraManager (detailed above) provides the programmatic interface, while Cinemachine Virtual Cameras define the actual camera behaviors and compositions.
+
+#### Virtual Camera Setup:
+
+**Main Combat Camera (Priority: 10)**
+- **Body**: Framing Transposer - Keeps player character optimally positioned in frame with soft zone dead zones for natural movement
+- **Aim**: Composer - Dynamically frames the player and nearby threats, adjusting composition based on combat intensity
+- **Extensions**: Collision detection to prevent camera clipping, subtle procedural noise for organic feel
+- **Use Case**: Default camera during standard gameplay and combat encounters
+
+**Boss Encounter Camera (Priority: 20)**
+- **Body**: Transposer with wider framing offset to show both player and boss simultaneously
+- **Aim**: Group Composer - Frames both player and boss within the viewport for dramatic confrontations
+- **Extensions**: Impulse listener for impact-based camera shake during boss attacks
+- **Activation**: Triggered by EventManager's boss spawn events, automatically takes priority over combat camera
+
+**Death Camera (Priority: 30)**
+- **Body**: Hard Lock to player position with slow dolly-out effect
+- **Aim**: POV with timed rotation to create dramatic final moments
+- **Activation**: Triggered on player death event, highest priority for cinematic presentation
+
+**Cutscene/Scripted Cameras (Priority: 100)**
+- **Body & Aim**: Varies per sequence, controlled via Timeline integration
+- **Use Case**: Wave completion celebrations, boss introductions, tutorial moments
+
+#### Dynamic Camera Behaviors:
+
+- **Combat Intensity Response**: Camera field of view (FOV) and damping values adjust based on enemy proximity and count - tighter framing during one-on-one encounters, wider framing during swarm situations
+- **Impact Feedback**: Cinemachine Impulse System triggers procedural shake on damage events, with magnitude scaled to damage amount
+- **Smooth Transitions**: Automatic blending between Virtual Cameras using ease-in-out curves for seamless priority changes
+- **Look-Ahead**: Camera anticipates player movement direction, positioning the frame slightly ahead for better visibility
+- **Vertical Reframing**: Automatic camera tilt adjustments when facing flying enemies (wasps) or ground-based threats (beetles)
+
+#### Integration with Game Systems:
+
+The camera system integrates with Bug Wars' event-driven architecture through EventManager subscriptions:
+- `OnGamePaused` → Reduces camera update rate and locks position
+- `OnGameResumed` → Restores normal camera behavior
+- `OnPlayerHealthChanged` → Triggers intensity-based FOV changes and trauma shake
+- `OnPlayerDied` → Activates death camera sequence
+- Boss-related events → Switch to specialized boss camera rigs
+
+Camera state changes can be sequenced with UniTask for precise timing - for example, awaiting a camera blend completion before starting a boss fight introduction or victory celebration. Custom Cinemachine extensions can receive VContainer-injected dependencies to access GameManager state, enabling camera behaviors that respond to game conditions.
+
+---
+
+## Technical Roadmap
+
+### Completed Systems ✅
+
+<CardGrid stagger>
+	<Card title="Core Architecture" icon="approve-check">
+		✅ **COMPLETE** - VContainer dependency injection, EventManager, GameManager, InputManager all implemented and operational.
+	</Card>
+	<Card title="Terrain Generation System" icon="approve-check">
+		✅ **COMPLETE** - Chunk-based procedural terrain with Perlin noise, async loading, frustum culling, and dynamic streaming.
+	</Card>
+	<Card title="Camera Management" icon="approve-check">
+		✅ **COMPLETE** - CameraManager with Cinemachine integration, virtual camera control, frustum culling utilities, and spatial queries.
+	</Card>
+	<Card title="Entity System" icon="approve-check">
+		✅ **COMPLETE** - Entity base class with health/damage, EntityManager with spatial queries, animation state system, sprite flipping.
+	</Card>
+	<Card title="Sprite Rendering System" icon="approve-check">
+		✅ **COMPLETE** - Custom URP shader with GPU-based billboarding, mesh-based rendering, JSON sprite atlas system, frame-based animation, MaterialPropertyBlock optimization.
+	</Card>
+	<Card title="UI Foundation" icon="approve-check">
+		✅ **COMPLETE** - UI Toolkit integration, MainMenuManager with event-driven visibility control.
+	</Card>
+	<Card title="Performance Foundation" icon="approve-check">
+		✅ **COMPLETE** - UniTask async operations, background thread mesh generation, frustum culling, chunk streaming optimization, zero-allocation animation updates.
+	</Card>
+</CardGrid>
+
+### In Progress & Planned Systems 🚧
+
+<CardGrid stagger>
+	<Card title="Physics & Movement" icon="rocket">
+		🚧 **IN PROGRESS** - Implement responsive character controller with custom physics tuning for tight, responsive gameplay feel. Physics foundation exists via Entity Rigidbody integration.
+	</Card>
+	<Card title="Cinemachine Virtual Cameras" icon="star">
+		🚧 **IN PROGRESS** - Configure specific Virtual Camera rigs for combat, boss encounters, and cinematic sequences with dynamic blending and procedural behaviors. CameraManager infrastructure complete.
+	</Card>
+	<Card title="AI Behavior Trees" icon="puzzle">
+		📋 **PLANNED** - Develop modular AI system using behavior trees for complex enemy decision-making and state management. EntityManager provides spatial awareness foundation.
+	</Card>
+	<Card title="Combat System" icon="swords">
+		📋 **PLANNED** - Create weapon framework with hit detection, damage calculation, and visual effects integration. Entity health system provides foundation.
+	</Card>
+	<Card title="Audio System" icon="information">
+		📋 **PLANNED** - Integrate spatial audio with dynamic mixing, music states, and procedural sound effect layers.
+	</Card>
+	<Card title="Save System" icon="document">
+		📋 **PLANNED** - Implement serialization framework for player progress, settings, and unlockables with cloud backup support.
+	</Card>
+	<Card title="Advanced Performance" icon="approve-check">
+		📋 **PLANNED** - Profile and optimize rendering, physics, and gameplay systems to target 60 FPS on all supported platforms. Current optimizations already in place (culling, async).
+	</Card>
+	<Card title="Wave System" icon="puzzle">
+		📋 **PLANNED** - Implement wave-based enemy spawning with difficulty scaling and progression mechanics.
+	</Card>
+</CardGrid>
+
+### Recent Accomplishments (Last 2 Weeks)
+
+- **Sprite Rendering System**: Implemented custom URP shader with GPU-based billboarding (cylindrical and spherical modes)
+- **Mesh-Based Rendering**: Replaced SpriteRenderer with MeshRenderer + custom shader for material control and performance
+- **Sprite Atlas System**: Created JSON-driven sprite atlas format with frame definitions and animation sequences using Newtonsoft.Json
+- **Samurai Character**: Implemented complete player character with frame-based animation, atlas loading, and shader integration
+- **Animation State System**: Universal EntityAnimationState enum with character-specific mapping for polymorphic animation control
+- **MaterialPropertyBlock Optimization**: Zero-allocation animation updates via cached shader property IDs and property block reuse
+- **Camera Focus Fix**: Resolved camera tracking issues to properly follow player character
+- **Sprite Flipping System**: Camera-relative directional flipping via shader parameters (_FlipX, _FlipY)
+- Quadrupled terrain chunk size from 20x20 to 80x80 units for better performance/detail ratio
+- Implemented async chunk loading/unloading with distance-based triggers
+- Added frustum culling integration between TerrainManager and CameraManager
+- Developed CameraManager with Cinemachine utilities and spatial query methods
+- Built EntityManager with spatial query capabilities (radius searches, closest entity, type filtering)
+- Refactored logging across all systems with defensive null checks
+- Integrated all new systems into VContainer dependency injection pipeline
+
+---
+
+## Development Guidelines
+
+### Code Standards
+
+- All public methods and classes must include XML documentation comments
+- Use explicit access modifiers (never rely on implicit `private`)
+- Follow Unity's component lifecycle patterns (Awake, Start, Update, OnDestroy)
+- Prefer composition over inheritance for gameplay features
+- Use `readonly` and `const` where appropriate to prevent accidental mutations
+
+### Architecture Principles
+
+- **Dependency Injection**: All managers and controllers use VContainer for dependency resolution
+- **Event-Driven Communication**: Systems communicate through EventManager rather than direct references
+- **Async/Await**: Prefer UniTask over coroutines for asynchronous operations
+- **Single Responsibility**: Each class should have one clear, well-defined purpose
+- **Testability**: Design with unit testing in mind - dependencies should be mockable
+
+### Version Control
+
+- Branch naming: `feature/description`, `bugfix/issue-number`, `refactor/system-name`
+- Commit messages should be descriptive and reference issue numbers
+- All code must pass automated tests before merging to main branch
+- Unity meta files must be committed with corresponding assets
+
+---
+
+## Game Advertising Strategy
+
+Bug Wars' success depends not only on solid development but also on effective marketing and community outreach. This section outlines our advertising strategy across multiple platforms and details the visual assets required to support these campaigns.
+
+### Target Advertising Platforms
+
+#### Itch.io
+
+[Itch.io](https://itch.io) is a premier indie game distribution platform with a vibrant community of indie game enthusiasts, developers, and players who actively seek out unique gaming experiences.
+
+**Platform Strategy:**
+- **Game Page Optimization**: Create a compelling game page with rich media (screenshots, GIFs, gameplay videos) showcasing Bug Wars' unique mechanics
+- **Tag Strategy**: Utilize relevant tags such as `action`, `survival`, `waves`, `unity`, `arcade`, `singleplayer`, `insects`, `combat`
+- **Devlog Series**: Regular development updates with behind-the-scenes content about VContainer architecture, Cinemachine camera work, and AI behavior implementation
+- **Demo Release**: Launch a free demo version (WebGL build) to reduce friction for player acquisition and gather early feedback
+- **Community Engagement**: Respond to comments, participate in jams, and cross-promote with similar indie titles
+- **Pricing Strategy**: Consider a pay-what-you-want model during beta with a suggested price, transitioning to fixed pricing at full release
+- **Bundle Participation**: Collaborate with other developers for themed bundles (indie action games, survival games, etc.)
+
+**Best Practices:**
+- Upload WebGL builds for instant browser playability (reduces barrier to entry)
+- Include detailed changelog with each update to show active development
+- Create an engaging cover image (630x500px minimum) that captures the game's action and bug-themed aesthetic
+- Add press kit download links for journalists and content creators
+
+#### Hacker News
+
+[Hacker News](https://news.ycombinator.com) is a technology-focused community with a strong interest in software development, game engines, and technical achievements. The audience skews toward engineers and technical professionals.
+
+**Platform Strategy:**
+- **Technical Deep-Dives**: Share "Show HN" posts focused on technical accomplishments - VContainer architecture, UniTask performance optimizations, or AI-assisted development with MCP
+- **Architecture Articles**: Write blog posts about solving technical challenges (e.g., "Building a Zero-Allocation Game Architecture with VContainer and UniTask")
+- **Open Source Contributions**: If appropriate, open-source non-core systems (camera utilities, event manager patterns) and share them with the community
+- **Timing**: Post during high-traffic periods (weekday mornings US EST, around 8-10 AM)
+- **Title Crafting**: Focus on technical value - "Bug Wars: Building a Unity Game with Dependency Injection and Zero-Allocation Async" performs better than "Check out my new game"
+- **Comment Engagement**: Be prepared to answer technical questions and engage in architectural discussions
+
+**Best Practices:**
+- Link to technical blog posts or GitHub repos rather than direct sales pages
+- Provide technical insights and learnings that benefit the broader development community
+- Include WebGL demo links for instant playability (HN users appreciate browser-accessible content)
+- Be transparent about development challenges and solutions
+- Avoid overly promotional language - focus on technical merit and interesting problems solved
+
+#### Craigslist
+
+[Craigslist](https://craigslist.org) offers localized community-based advertising with surprisingly engaged gaming communities in major metropolitan areas.
+
+**Platform Strategy:**
+- **Community Section**: Post in the "community > activities" or "for sale > video gaming" sections of major cities
+- **Local Gaming Groups**: Target cities with active gaming communities (San Francisco, Los Angeles, New York, Seattle, Austin, etc.)
+- **Event Tie-Ins**: Coordinate posts with local gaming events, conventions, or meetups
+- **Beta Testing Recruitment**: Use Craigslist to recruit local beta testers who can provide in-person feedback sessions
+- **University Outreach**: Post in college town Craigslist sites targeting computer science and game design student communities
+
+**Post Structure:**
+- Clear, concise title: "Free Indie Action Game: Bug Wars - Beta Testers Wanted" or "New Unity Game Launch - Bug-Themed Survival Action"
+- Brief description with bullet points highlighting key features
+- Call-to-action with direct download/play links
+- Optional: Include local gaming community Discord/meetup information
+- Refresh posts every 7-14 days to maintain visibility
+
+**Best Practices:**
+- Follow Craigslist posting guidelines carefully to avoid flags/removal
+- Use local language and references when appropriate
+- Include clear contact information or links (email, Discord, game page URL)
+- Avoid spam-like behavior - space out posts across different city sections
+- Consider offering special items/credits for local players who provide feedback
+
+#### Reddit (r/sideproject)
+
+[Reddit's r/sideproject](https://reddit.com/r/sideproject) is a community where creators share their projects, receive feedback, and connect with potential users. The subreddit has over 300k members interested in entrepreneurship, indie development, and creative projects.
+
+**Platform Strategy:**
+- **Launch Announcements**: Share major milestones (beta launch, full release, significant updates) with detailed posts
+- **Behind-the-Scenes Content**: Create posts showing development journey, technical challenges overcome, and lessons learned
+- **Feedback Requests**: Engage the community for UX feedback, feature suggestions, and playtesting
+- **Follow-Up Posts**: Update the community on progress based on their feedback, showing iteration and responsiveness
+- **Cross-Posting**: Consider sharing to related subreddits like r/Unity3D, r/gamedev, r/IndieGaming, r/WebGames (for WebGL builds)
+
+**Post Structure Best Practices:**
+- **Engaging Title**: "I built a survival action game with Unity where you fight waves of insects - 6 months of nights/weekends"
+- **Opening Hook**: Lead with the most interesting aspect (technical achievement, unique gameplay mechanic, development story)
+- **Project Summary**: Clear explanation of what Bug Wars is and what makes it unique
+- **Technical Stack**: r/sideproject appreciates technical details - mention Unity, VContainer, UniTask, WebGL deployment
+- **Call to Action**: Direct link to play (itch.io WebGL build ideal) and request for specific feedback
+- **Development Stats**: Include interesting metrics (lines of code, hours invested, iterations, etc.)
+- **Visuals**: Embed GIFs or images directly in the post (Reddit's image hosting preferred)
+
+**Engagement Guidelines:**
+- Respond to every comment within the first 2-3 hours (critical for Reddit algorithm visibility)
+- Be transparent about challenges and failures (Reddit values authenticity)
+- Avoid overly promotional language - focus on journey and learning
+- Thank users for feedback and show how you're incorporating suggestions
+- Consider hosting an impromptu AMA if post gains significant traction
+
+**Timing:**
+- Post Tuesday-Thursday, 8-11 AM EST for maximum visibility
+- Avoid Fridays and weekends (lower engagement on r/sideproject)
+
+**Additional Relevant Subreddits:**
+- r/Unity3D (200k+ members, technical Unity discussions)
+- r/gamedev (1M+ members, weekly feedback threads)
+- r/IndieGaming (300k+ members, indie game showcases)
+- r/WebGames (600k+ members, specifically for browser-playable games)
+- r/PlayMyGame (50k+ members, focused on playtesting and feedback)
+
+### Visual Assets & Infographics Strategy
+
+Effective game advertising requires a comprehensive suite of visual assets optimized for different platforms and use cases. This section details the infographics and image assets needed to maximize Bug Wars' marketing impact.
+
+#### Core Visual Asset Types
+
+**1. Hero Banner / Key Art**
+- **Dimensions**: 1920x1080px (16:9 ratio) for web use, 3840x2160px for high-resolution displays
+- **Purpose**: Primary marketing image showcasing the game's theme, tone, and visual identity
+- **Content**: Dynamic composition featuring player character surrounded by enemy bugs, emphasizing action and survival themes
+- **Use Cases**: Website headers, press kit, social media cover images, Itch.io banner
+- **Style**: High-contrast, vibrant colors that work well when downsized for thumbnails
+
+**2. Gameplay Screenshots**
+- **Dimensions**: 1920x1080px (native Unity resolution)
+- **Quantity**: Minimum 6-8 varied screenshots showing different aspects of gameplay
+- **Content Variety**:
+  - Early game combat (showing tutorial/learning curve)
+  - Mid-game intensity (swarm encounters with multiple enemy types)
+  - Boss encounter (dramatic framing with Cinemachine camera angles)
+  - UI/HUD demonstration (clear visibility of game interface)
+  - Environmental variety (different arena types or settings)
+  - Victory/progression moments (player success, upgrades, achievements)
+- **Post-Processing**: Subtle color correction and sharpening, avoid over-editing that misrepresents actual gameplay
+- **Use Cases**: Itch.io gallery, Reddit posts, press kit, store pages
+
+**3. Animated GIFs**
+- **Dimensions**: 800x450px to 1280x720px (balance between quality and file size)
+- **Duration**: 3-8 seconds, seamlessly looping
+- **Frame Rate**: 30 FPS (smooth motion without excessive file size)
+- **File Size Target**: Under 5MB for fast loading on web platforms
+- **Content Ideas**:
+  - Combat loop demonstration (player attacking, dodging, defeating enemies)
+  - Enemy behavior showcase (unique bug attack patterns and movement)
+  - Camera system highlight (Cinemachine dynamic framing and shake effects)
+  - Upgrade/progression moment (visual feedback when leveling up)
+  - Swarm intensity ramp-up (showing wave escalation)
+- **Technical Creation**: Use Unity Recorder package or screen capture tools like ShareX, OBS
+- **Optimization**: Use GIPHY's compression tools or ezgif.com to reduce file size while maintaining quality
+- **Use Cases**: Reddit posts, Twitter/X posts, Itch.io gallery, README files
+
+**4. Logo & Branding Assets**
+- **Logo Variations**:
+  - Full color on transparent background (PNG, 2048x2048px square)
+  - White version for dark backgrounds (PNG, 2048x2048px)
+  - Black version for light backgrounds (PNG, 2048x2048px)
+  - Favicon (256x256px, 64x64px, 32x32px, 16x16px)
+- **Typography**: Document primary font choices for "Bug Wars" wordmark
+- **Color Palette**: Define primary brand colors (hex codes) for consistent visual identity
+- **Use Cases**: Website favicon, social media avatars, watermarks, press kit
+
+**5. Infographics**
+
+**Game Features Infographic**
+- **Dimensions**: 1200x3000px (vertical scroll format ideal for Reddit/blog posts)
+- **Content Sections**:
+  - Game overview with logo and tagline
+  - Core mechanics breakdown (combat, progression, enemies)
+  - Technical stack visualization (Unity + VContainer + UniTask + Cinemachine)
+  - Development timeline/roadmap
+  - Platform availability (WebGL browser, Windows, Mac, Linux)
+- **Style**: Clean, modern design with icons and minimal text
+- **Tools**: Canva, Figma, Adobe Illustrator
+
+**Enemy Types Infographic**
+- **Dimensions**: 1920x1080px (landscape for easy sharing)
+- **Content**: Visual guide showing each enemy type with:
+  - Enemy sprite/3D model preview
+  - Name and difficulty tier
+  - Key behaviors and attack patterns
+  - Tactical tips for players
+- **Purpose**: Educational content that doubles as marketing material
+- **Use Cases**: Blog posts, Reddit strategy guides, Steam community discussions
+
+**Development Tech Stack Infographic**
+- **Dimensions**: 1200x1200px (square for social media)
+- **Content**: Visual representation of Bug Wars' technical architecture:
+  - Unity Engine (central node)
+  - VContainer (dependency injection layer)
+  - UniTask (async operations)
+  - Cinemachine (camera system)
+  - UI Toolkit (interface)
+  - Model Context Protocol (AI-assisted development)
+- **Style**: Node-based diagram or layered architecture visualization
+- **Purpose**: Technical marketing for developer communities (Hacker News, r/Unity3D, r/gamedev)
+
+**6. Social Media Assets**
+
+**Twitter/X Card**
+- **Dimensions**: 1200x675px (16:9 ratio)
+- **Content**: Eye-catching gameplay moment or key art with minimal text overlay
+- **Purpose**: Optimized preview when sharing links on Twitter/X
+
+**Open Graph Image (Facebook/LinkedIn)**
+- **Dimensions**: 1200x630px (1.91:1 ratio)
+- **Content**: Similar to Twitter card but with slightly different aspect ratio
+- **Purpose**: Preview image when sharing on Facebook, LinkedIn, Discord
+
+**Instagram/Square Format**
+- **Dimensions**: 1080x1080px (1:1 ratio)
+- **Content**: Cropped/reformatted key art or gameplay screenshots
+- **Purpose**: Instagram posts, Twitter media attachments, Discord avatars
+
+**7. Video Assets**
+
+**Launch Trailer**
+- **Duration**: 60-90 seconds
+- **Content**: Fast-paced montage of gameplay highlights, enemy encounters, and progression moments
+- **Music**: Energetic, action-oriented soundtrack matching game's intensity
+- **Text Overlays**: Key features, platform availability, release date/availability
+- **Call-to-Action**: End screen with itch.io link and "Play Now" text
+- **Formats**: Export in 1080p60 and 4K60 for different platforms
+- **Use Cases**: YouTube, Itch.io page, social media, press kit
+
+**Gameplay Deep-Dive Video**
+- **Duration**: 3-5 minutes
+- **Content**: Narrated or text-overlay walkthrough explaining core mechanics, enemy types, and progression
+- **Purpose**: Educational content for players interested in understanding game systems
+- **Use Cases**: YouTube, Itch.io devlog, tutorial resource
+
+**Technical Developer Commentary**
+- **Duration**: 10-20 minutes
+- **Content**: Behind-the-scenes technical discussion of architecture, Unity systems, and development challenges
+- **Target Audience**: Game developers, Unity enthusiasts, technical community (Hacker News audience)
+- **Use Cases**: YouTube, blog post embed, conference talk material
+
+#### Asset Organization & Management
+
+**Press Kit Structure**
+```
+BugWars_PressKit/
+├── Images/
+│   ├── KeyArt/
+│   │   ├── BugWars_KeyArt_4K.png
+│   │   └── BugWars_KeyArt_1080p.png
+│   ├── Screenshots/
+│   │   ├── BugWars_Screenshot_01.png
+│   │   └── ... (6-8 total)
+│   ├── Logos/
+│   │   ├── BugWars_Logo_Color.png
+│   │   ├── BugWars_Logo_White.png
+│   │   └── BugWars_Logo_Black.png
+│   └── Social/
+│       ├── TwitterCard_1200x675.png
+│       ├── OpenGraph_1200x630.png
+│       └── Square_1080x1080.png
+├── Videos/
+│   ├── BugWars_LaunchTrailer_1080p60.mp4
+│   └── BugWars_LaunchTrailer_4K60.mp4
+├── GIFs/
+│   ├── Combat_Loop.gif
+│   ├── Boss_Encounter.gif
+│   └── Swarm_Mechanics.gif
+├── Infographics/
+│   ├── GameFeatures_Infographic.png
+│   └── TechStack_Infographic.png
+└── BugWars_FactSheet.pdf
+```
+
+**Fact Sheet Contents**
+- Game title, tagline, and elevator pitch
+- Developer name and contact information
+- Release date and platform availability
+- Key features (bullet points)
+- Technical specifications (Unity version, system requirements)
+- Link to gameplay trailer and website
+- High-resolution logo files reference
+- Social media handles and press contact
+
+#### Asset Creation Workflow
+
+**Tools & Software:**
+- **Unity Recorder Package**: For capturing gameplay footage and screenshots at consistent quality
+- **OBS Studio**: For longer gameplay recordings and live capture
+- **GIPHY/ezgif.com**: For GIF optimization and editing
+- **Canva/Figma**: For infographic design (non-technical team members)
+- **Adobe Creative Suite**: For professional-grade asset creation (Photoshop, Illustrator, Premiere Pro)
+- **DaVinci Resolve**: Free alternative for video editing
+- **ShareX**: Quick screenshot and GIF capture tool (Windows)
+
+**Capture Best Practices:**
+- Record gameplay at native 1920x1080 resolution for consistency
+- Use Unity's Frame Debugger to capture perfect timing moments
+- Disable debug UI elements and development overlays before capturing
+- Capture during stable builds to avoid visual glitches in marketing materials
+- Maintain consistent visual quality across all assets
+- Version control assets alongside code (large files in Git LFS or separate cloud storage)
+
+**Optimization Guidelines:**
+- **PNGs**: Use TinyPNG or ImageOptim to reduce file sizes without visible quality loss
+- **GIFs**: Target 3-5MB max for fast web loading, use lossy compression if needed
+- **Videos**: H.264 codec with moderate compression (CRF 23-28) for web delivery
+- **Responsive Versions**: Create multiple size variants for different devices and platforms
+
+---
+
+## Resources & References
+
+### Core Unity Technologies
+- [VContainer Documentation](https://vcontainer.hadashia.com/)
+- [UniTask Documentation](https://github.com/Cysharp/UniTask)
+- [Cinemachine Documentation](https://docs.unity3d.com/Packages/com.unity.cinemachine@latest)
+- [Unity UI Toolkit Guide](https://docs.unity3d.com/Manual/UIElements.html)
+- [Unity Input System](https://docs.unity3d.com/Packages/com.unity.inputsystem@latest)
+
+### AI-Assisted Development Tools
+- [Unity MCP (Model Context Protocol)](https://github.com/CoplayDev/unity-mcp)
+- [Context7 Unity Documentation](https://context7.com?q=unity)
+- [Context7 GitHub Repository](https://github.com/upstash/context7)
+
+---
+
+*Last Updated: 2025-01-11 - Added Sprite Rendering System documentation (custom URP shader, mesh-based rendering, sprite atlas system, Samurai character implementation)*

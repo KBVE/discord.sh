@@ -1,0 +1,73 @@
+---
+title: |
+  Bug Wars 플레이
+description: |
+  Unity WebGL로 브라우저에서 Bug Wars를 경험하세요
+template: splash
+hero:
+  tagline: 무리에서 살아남아라. 당신의 가치를 증명하라.
+  image:
+    file: ../../../assets/BugWars.webp
+  rawHtml: "<div id='unity-container' style='width: 100%; max-width: 960px; margin: 0 auto;'><div id='unity-canvas-container'></div></div>"
+
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## 브라우저에서 Bug Wars 플레이
+
+궁극의 생존 도전에 대비하세요. Bug Wars는 Unity WebGL 기술을 사용하여 브라우저에서 직접 실행됩니다 - 설치 불필요.
+
+{/* Unity WebGL container will be injected here when the build is ready */}
+<div id="unity-game-wrapper" style="margin: 2rem 0;">
+  <div id="unity-loading-placeholder" style="text-align: center; padding: 4rem 2rem; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%); border-radius: 12px; border: 2px dashed rgba(99, 102, 241, 0.3);">
+    <h3 style="margin-bottom: 1rem; color: #6366f1;">Unity WebGL 빌드 곧 출시</h3>
+    <p style="color: #94a3b8; max-width: 600px; margin: 0 auto;">
+      게임은 현재 개발 중입니다. Unity WebGL 빌드가 준비되면 여기에 임베드되어 즉시 브라우저 기반 게임플레이가 가능합니다.
+    </p>
+    <p style="margin-top: 1.5rem; font-size: 0.875rem; color: #64748b;">
+      예상 기능: 완전한 3D 그래픽, 반응형 컨트롤, 웨이브 기반 전투, 몰입형 사운드 디자인.
+    </p>
+  </div>
+</div>
+
+## 게임 조작법
+
+<CardGrid stagger>
+  <Card title="이동" icon="right-arrow">
+    WASD 또는 화살표 키를 사용하여 전장을 이동하고 적의 공격을 회피합니다.
+  </Card>
+  <Card title="전투" icon="rocket">
+    왼쪽 클릭 또는 스페이스바로 공격. 타이밍을 맞춰 공격하여 데미지를 극대화하세요.
+  </Card>
+  <Card title="특수 능력" icon="star">
+    E 또는 오른쪽 클릭으로 사용 가능한 특수 능력을 활성화합니다.
+  </Card>
+  <Card title="일시정지 메뉴" icon="setting">
+    ESC를 눌러 게임을 일시정지하고 설정에 접근하거나 메인 메뉴로 돌아갑니다.
+  </Card>
+</CardGrid>
+
+## 게임 팁
+
+<CardGrid stagger>
+  <Card title="계속 움직이기" icon="rocket">
+    끊임없는 움직임이 생존의 열쇠입니다. 가만히 서 있으면 무리의 쉬운 표적이 됩니다.
+  </Card>
+  <Card title="위협 우선순위" icon="warning">
+    가장 위험한 적부터 먼저 처리하세요. 일부 벌레는 다른 것들보다 더 많은 피해를 주거나 빠르게 움직입니다.
+  </Card>
+  <Card title="자원 관리" icon="star">
+    특수 능력을 현명하게 사용하세요. 압도적인 상황이나 어려운 보스 전투를 위해 남겨두세요.
+  </Card>
+  <Card title="패턴 학습" icon="open-book">
+    각 웨이브에는 예측 가능한 패턴이 있습니다. 적의 행동을 연구하여 공격을 예상하세요.
+  </Card>
+</CardGrid>
+
+---
+
+<div style="text-align: center; margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%); border-radius: 12px;">
+  <h3 style="margin-bottom: 0.5rem;">싸울 준비가 되셨나요?</h3>
+  <p style="color: #94a3b8;">벌레들이 기다리고 있습니다. 당신의 실력을 보여주세요.</p>
+</div>

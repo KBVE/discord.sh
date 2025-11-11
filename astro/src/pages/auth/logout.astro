@@ -1,0 +1,149 @@
+---
+// src/pages/auth/logout.astro
+// This page handles signing out from both AuthBridge and SharedWorker
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Signing out...</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .container {
+        text-align: center;
+        color: white;
+      }
+      .spinner {
+        width: 50px;
+        height: 50px;
+        margin: 0 auto 20px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      .message {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      .sub-message {
+        font-size: 14px;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="spinner"></div>
+      <div class="message">Signing out...</div>
+      <div class="sub-message">Please wait</div>
+    </div>
+
+    <script>
+      import { authBridge } from '@/components/auth';
+
+      (async () => {
+        try {
+          console.log('[Logout] Starting sign-out process...');
+
+          // Try to sign out from AuthBridge first (window client)
+          try {
+            await authBridge.signOut();
+            console.log('[Logout] AuthBridge sign-out complete');
+          } catch (err) {
+            console.log('[Logout] AuthBridge sign-out skipped (no session):', err);
+          }
+
+          // DON'T initialize SharedWorker - we need to keep it closed so IndexedDB can be deleted
+          console.log('[Logout] Skipping SharedWorker initialization to allow IndexedDB deletion');
+
+          // Wait a moment for any active connections to close
+          await new Promise(resolve => setTimeout(resolve, 100));
+
+          // Clear IndexedDB manually to ensure session is gone
+          console.log('[Logout] Clearing IndexedDB...');
+
+          // First, list all databases
+          if ('databases' in indexedDB) {
+            const dbs = await indexedDB.databases();
+            console.log('[Logout] Existing databases:', dbs.map(db => db.name));
+          }
+
+          // Delete the auth database completely
+          try {
+            await new Promise((resolve, reject) => {
+              const deleteRequest = indexedDB.deleteDatabase('sb-auth-v2');
+              deleteRequest.onsuccess = () => {
+                console.log('[Logout] Successfully deleted IndexedDB: sb-auth-v2');
+                resolve(true);
+              };
+              deleteRequest.onerror = () => {
+                console.error('[Logout] Error deleting sb-auth-v2:', deleteRequest.error);
+                reject(deleteRequest.error);
+              };
+              deleteRequest.onblocked = () => {
+                console.warn('[Logout] IndexedDB sb-auth-v2 deletion blocked - trying to continue anyway');
+                // Wait a bit and resolve anyway
+                setTimeout(() => resolve(true), 200);
+              };
+            });
+          } catch (err) {
+            console.warn('[Logout] Failed to clear sb-auth-v2:', err);
+          }
+
+          // Verify deletion
+          if ('databases' in indexedDB) {
+            const dbsAfter = await indexedDB.databases();
+            console.log('[Logout] Remaining databases after deletion:', dbsAfter.map(db => db.name));
+          }
+
+          // Also clear localStorage as a precaution
+          Object.keys(localStorage).forEach(key => {
+            if (key.includes('supabase') || key.includes('sb-')) {
+              localStorage.removeItem(key);
+              console.log(`[Logout] Cleared localStorage: ${key}`);
+            }
+          });
+
+          // Success! Show message
+          const messageEl = document.querySelector('.message');
+          const subMessageEl = document.querySelector('.sub-message');
+          if (messageEl) messageEl.textContent = 'Signed out successfully';
+          if (subMessageEl) subMessageEl.textContent = 'Redirecting to home...';
+
+          console.log('[Logout] Sign-out complete! Redirecting to home page...');
+
+          // Wait a moment to show the success message, then redirect
+          setTimeout(() => {
+            window.location.href = '/?_=' + Date.now();
+          }, 500);
+        } catch (error) {
+          console.error('[Logout] Sign-out error:', error);
+          const messageEl = document.querySelector('.message');
+          const subMessageEl = document.querySelector('.sub-message');
+          if (messageEl) messageEl.textContent = 'Sign-out error occurred';
+          if (subMessageEl) subMessageEl.textContent = 'Redirecting to home...';
+
+          // Even on error, redirect to home after a moment
+          setTimeout(() => {
+            window.location.href = '/?_=' + Date.now();
+          }, 1000);
+        }
+      })();
+    </script>
+  </body>
+</html>
